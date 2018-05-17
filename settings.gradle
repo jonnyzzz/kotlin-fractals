@@ -1,0 +1,8 @@
+rootProject.name = "kotlin-fractals"
+
+include ":common"
+include ":js"
+include ":jvm"
+include ":native"
+
+

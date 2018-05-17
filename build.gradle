@@ -1,0 +1,33 @@
+buildscript {
+  ext.kotlin_version = '1.2.41'
+  ext.kotlin_native_version = '0.7'
+
+  repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+      url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
+    }
+  }
+
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+  }
+}
+
+group = 'org.jetbrains.demo.kotlin-fractals'
+version = 'SNAPSHOT'
+
+subprojects {
+  group = rootProject.group
+  version = rootProject.version
+
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+}
+
+
+
