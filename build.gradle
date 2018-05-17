@@ -2,6 +2,14 @@ buildscript {
   ext.kotlin_version = '1.2.41'
   ext.kotlin_native_version = '0.7'
 
+  ext.kotlin_html_version = '0.6.10'
+  ext.css_version = '1.0.0-pre.25-kotlin-1.2.30'
+  ext.kotlinx_coroutines_version = '0.22.5'
+  ext.react_version = '16.3.1-pre.25-kotlin-1.2.30'
+  ext.react_dom_version='16.3.1-pre.25-kotlin-1.2.30'
+  ext.styled_version='1.0.0-pre.25-kotlin-1.2.30'
+
+
   repositories {
     mavenCentral()
     jcenter()

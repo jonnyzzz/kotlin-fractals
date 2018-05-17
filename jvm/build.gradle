@@ -7,6 +7,8 @@ dependencies {
   compile("org.jetbrains.kotlin:kotlin-reflect")
   compile("org.jetbrains.kotlin:kotlin-test-junit")
 
+  compile "org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlin_html_version"
+
   compile("com.fasterxml.jackson.core:jackson-core:2.9.4")
   compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
   compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
