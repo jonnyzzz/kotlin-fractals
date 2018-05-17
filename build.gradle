@@ -8,11 +8,15 @@ buildscript {
     maven {
       url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
     }
+    maven {
+      url "https://dl.bintray.com/kotlin/kotlin-eap"
+    }
   }
 
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+    classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.30"
   }
 }
 

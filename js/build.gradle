@@ -1,0 +1,40 @@
+apply plugin: "kotlin-platform-js"
+apply plugin: "org.jetbrains.kotlin.frontend"
+
+dependencies {
+  expectedBy(project(":common"))
+
+  compile("org.jetbrains.kotlin:kotlin-stdlib-js")
+  compile("org.jetbrains.kotlin:kotlin-test-js")
+
+}
+
+kotlin {
+  experimental.coroutines = 'ENABLE'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile) {
+  kotlinOptions.metaInfo = true
+  kotlinOptions.sourceMap = true
+  kotlinOptions.moduleKind = "commonjs"
+  kotlinOptions.main = "call"
+}
+
+kotlinFrontend {
+  npm {
+    dependency "style-loader"
+
+    devDependency("karma")
+  }
+
+  sourceMaps = true
+
+  webpackBundle {
+    bundleName = "main"
+    contentPath = file('src/main/web')
+    port = 7777
+  }
+
+  define "PRODUCTION", false
+}
+

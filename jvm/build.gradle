@@ -1,0 +1,18 @@
+apply plugin: "kotlin-platform-jvm"
+
+dependencies {
+  expectedBy project(":common")
+
+  compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  compile("org.jetbrains.kotlin:kotlin-reflect")
+  compile("org.jetbrains.kotlin:kotlin-test-junit")
+
+  compile("com.fasterxml.jackson.core:jackson-core:2.9.4")
+  compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
+  compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
+
+
+  compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5")
+
+  compile("junit:junit:4.12")
+}
