@@ -33,7 +33,7 @@ data class IterationSetup(
 
 class MandelbrotPointIteration(
         val c: ComplexNumber
-) : IterationState {
+) : IterationState, Iterator<Unit> {
   private var z = ComplexNumber.ZERO
 
   override var iteration = 0
@@ -42,16 +42,12 @@ class MandelbrotPointIteration(
   override var mod2 = 0.0
     private set
 
-  fun next(setup: IterationSetup) : MandelbrotPointIteration? {
+  override fun next() {
     z = z * z + c
     mod2 = z.mod2
 
     iteration ++
-
-    return if (!hasNext(setup)) {
-      null
-    } else this
   }
 
-  fun hasNext(setup: IterationSetup) = iteration < setup.maxIterations && mod2 < 4
+  override fun hasNext() = mod2 < 4
 }

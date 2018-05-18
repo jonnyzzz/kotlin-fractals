@@ -1,18 +1,12 @@
 import org.jetbrains.demo.kotlinfractals.Color
-import org.jetbrains.demo.kotlinfractals.ColorPicker
-import org.jetbrains.demo.kotlinfractals.IterationSetup
-import org.jetbrains.demo.kotlinfractals.MondelbrotSetUpdatingRenderer
-import org.jetbrains.demo.kotlinfractals.Point
+import org.jetbrains.demo.kotlinfractals.JSCanvasPixelRenderer
+import org.jetbrains.demo.kotlinfractals.MandelbrotPointIteration
 import org.jetbrains.demo.kotlinfractals.Rect
 import org.jetbrains.demo.kotlinfractals.Transformation
-import org.jetbrains.demo.kotlinfractals.height
-import org.jetbrains.demo.kotlinfractals.width
+import org.jetbrains.demo.kotlinfractals.forEachPixel
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.Window
-import org.w3c.dom.WindowOrWorkerGlobalScope
 import kotlin.browser.document
-import kotlin.browser.window
 
 
 interface ApplicationBase {
@@ -57,26 +51,35 @@ fun start(state: dynamic): ApplicationBase {
   val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
   val image = JSCanvasPixelRenderer(ctx)
-
-
-  val width = image.width
-  val height = image.height
-  println("client width=$width, height=$height")
-
-  image.putPixel(Point(4,4), Color(0,0,0))
-  image.putPixel(Point(8,8), Color(0,0,0))
-  image.putPixel(Point(40, 30), Color(0,0,0))
-  image.putPixel(Point(100, 100), Color(0,0,0))
-  image.putPixel(Point(200, 100), Color(0,0,0))
-  image.putPixel(Point(299, 100), Color(0,0,0))
-  image.putPixel(Point(width-1, height-1), Color(0,0,0))
-
+  println("client width=${image.width}, height=${image.height}")
+  image.fill(Color.GRAY)
   image.commit()
 
+  println("Gray color is done")
+
+  /*
+  println("Rendering Fractal")
+  val t = Transformation(
+          image.pixelRect,
+          Rect(-2.0, -2.0, 2.0, 2.0))
+
+  t.forEachPixel { p, c ->
+    val it = MandelbrotPointIteration(c)
+    val isReachable = it.asSequence().drop(500).any()
+    image.putPixel(p,
+            if (isReachable) {
+              Color.WHITE
+            } else {
+              Color.BLACK
+            })
+  }
+
+  image.commit()
+*/
 //
 //  println("It runs! 2. canvas weight=$width, height=$height")
 //
-//  val setup = IterationSetup(1_000)
+//
 //
 //  val render = MondelbrotSetUpdatingRenderer(Transformation(
 //          Rect(0, 0, width, height),

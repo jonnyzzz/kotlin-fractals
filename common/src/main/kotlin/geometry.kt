@@ -34,6 +34,8 @@ fun Double.normalize() = when {
 val <T : Number> Segment<T>.size
   get() = (right.toDouble() - left.toDouble()).absoluteValue
 
+val Segment<Int>.size get() = (right - left).absoluteValue
+
 fun <T : Number> Segment<T>.normalize(x: T)
         = ((x.toDouble() - left.toDouble()) / size).normalize()
 
@@ -46,8 +48,8 @@ class Transformation(
 ) {
 
   private fun <From : Number, To : Number> scale(c: From,
-                                                    fromScale: Segment<From>,
-                                                    toScale: Segment<To>)
+                                                 fromScale: Segment<From>,
+                                                 toScale: Segment<To>)
           = toScale.fromNorm(fromScale.normalize(c))
 
   fun toComplex(x: Int, y: Int) : ComplexNumber {
@@ -55,31 +57,23 @@ class Transformation(
     val im = scale(y, pixelRect.Y, fractalRect.Y).toDouble()
     return ComplexNumber(re, im)
   }
+}
 
-  fun toPoint(x: Double, y: Double): Point {
-    val re = scale(x, fractalRect.X, pixelRect.X).toInt()
-    val im = scale(y, fractalRect.Y, pixelRect.Y).toInt()
-    return Point(re, im)
+fun Transformation.toComplex(c: Point) = toComplex(c.x, c.y)
+
+val Rect<Int>.pixels
+  get() = X.size * Y.size
+
+inline fun Rect<Int>.forEachPixel(call: (Point) -> Unit) {
+  (top until bottom).forEach { y ->
+    (left until right).forEach { x ->
+      call(Point(x, y))
+    }
   }
 }
 
-
-fun Transformation.toComplex(c: Point) = toComplex(c.x, c.y)
-fun Transformation.toPoint(c: ComplexNumber) = toPoint(c.re, c.im)
-
-val Segment<Int>.size get() = (right - left).absoluteValue
-val Rect<Int>.pixels get() = X.size * Y.size
-val Rect<Int>.width get() = X.size
-val Rect<Int>.height get() = Y.size
-
-
-fun Transformation.fromIndexToPixel(it: Int) : Point {
-  val x = it % pixelRect.width + pixelRect.left
-  val y = it / pixelRect.width + pixelRect.top
-
-  return Point(x, y)
-}
-
-fun Transformation.fromIndex(it: Int): ComplexNumber {
-  return toComplex(fromIndexToPixel(it))
+inline fun Transformation.forEachPixel(call: (Point, ComplexNumber) -> Unit) {
+  pixelRect.forEachPixel { p ->
+    call(p, toComplex(p))
+  }
 }

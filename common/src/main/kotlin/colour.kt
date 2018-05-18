@@ -6,6 +6,7 @@ import kotlin.math.pow
 data class Color(val r: Int, val g: Int, val b: Int) {
   companion object {
     val BLACK = Color(0, 0, 0)
+    val GRAY = Color(127, 127, 127)
     val WHITE = Color(255, 255, 255)
   }
 }
