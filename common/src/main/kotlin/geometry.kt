@@ -19,10 +19,13 @@ data class Segment<T>(
         val right: T
 )
 
-val <T> Rect<T>.X get() = Segment(left, right)
-val <T> Rect<T>.Y get() = Segment(top, bottom)
+val <T> Rect<T>.X
+  get() = Segment(left, right)
 
-private fun Double.normalize() = when {
+val <T> Rect<T>.Y
+  get() = Segment(top, bottom)
+
+fun Double.normalize() = when {
   this <= 0 -> 0.0
   this >= 1 -> 1.0
   else -> this
