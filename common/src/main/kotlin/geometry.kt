@@ -74,8 +74,8 @@ val Rect<Int>.height get() = Y.size
 
 
 fun Transformation.fromIndexToPixel(it: Int) : Point {
-  val x = it % pixelRect.height + pixelRect.left
-  val y = it / pixelRect.height + pixelRect.top
+  val x = it % pixelRect.width + pixelRect.left
+  val y = it / pixelRect.width + pixelRect.top
 
   return Point(x, y)
 }

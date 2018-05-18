@@ -33,8 +33,7 @@ class MondelbrotSetUpdatingRenderer (
       val pixel = t.fromIndexToPixel(it)
       val d = done[it]
 
-      val c = Color(0,255,0,127)
-      println("$pixel = $c")
+      val c = if (d == null) Color.BLACK else Color.WHITE
       data(pixel, c)
 //
 //      if (d != null) {

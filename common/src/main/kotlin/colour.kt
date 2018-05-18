@@ -3,10 +3,10 @@ package org.jetbrains.demo.kotlinfractals
 import kotlin.math.exp
 import kotlin.math.pow
 
-data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0) {
+data class Color(val r: Int, val g: Int, val b: Int) {
   companion object {
-    val BLACK = Color(0, 0, 0, 0)
-    val WHITE = Color(255, 255, 255, 0)
+    val BLACK = Color(0, 0, 0)
+    val WHITE = Color(255, 255, 255)
   }
 }
 
@@ -37,7 +37,7 @@ class ColorPicker(
 
   fun selectColour(state: IterationState): Color {
 
-    return Color(255, 255,255, 255)
+    return Color(255, 255,255)
 
     @Suppress("NAME_SHADOWING")
     val deep = (state.iteration.toDouble() / setup.maxIterations).normalize()

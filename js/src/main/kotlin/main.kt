@@ -56,15 +56,20 @@ fun start(state: dynamic): ApplicationBase {
   val canvas = document.getElementById("canvas") as HTMLCanvasElement
   val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
-  val width = canvas.clientWidth
-  val height = canvas.clientHeight
+  val image = JSCanvasPixelRenderer(ctx)
 
 
-  val image = JSCanvasPixelRenderer(width, height, ctx)
+  val width = image.width
+  val height = image.height
+  println("client width=$width, height=$height")
 
-  image.putPixel(Point(4,4), Color(0,0,0,0))
-  image.putPixel(Point(8,8), Color(0,0,0,0))
-  image.putPixel(Point(200,400), Color(0,0,0,0))
+  image.putPixel(Point(4,4), Color(0,0,0))
+  image.putPixel(Point(8,8), Color(0,0,0))
+  image.putPixel(Point(40, 30), Color(0,0,0))
+  image.putPixel(Point(100, 100), Color(0,0,0))
+  image.putPixel(Point(200, 100), Color(0,0,0))
+  image.putPixel(Point(299, 100), Color(0,0,0))
+  image.putPixel(Point(width-1, height-1), Color(0,0,0))
 
   image.commit()
 
@@ -95,10 +100,10 @@ fun start(state: dynamic): ApplicationBase {
 }
 
 
-fun MondelbrotSetUpdatingRenderer.toCanvasContext(ctx: CanvasRenderingContext2D) {
-  println("It renders to Canvas!")
-
-  val image = JSCanvasPixelRenderer(t.pixelRect.width, t.pixelRect.height, ctx)
-  iteratePixels { p, c -> image.putPixel(p,c) }
-  image.commit()
-}
+//fun MondelbrotSetUpdatingRenderer.toCanvasContext(ctx: CanvasRenderingContext2D) {
+//  println("It renders to Canvas!")
+//
+//  val image = JSCanvasPixelRenderer(t.pixelRect.width, t.pixelRect.height, ctx)
+//  iteratePixels { p, c -> image.putPixel(p,c) }
+//  image.commit()
+//}
