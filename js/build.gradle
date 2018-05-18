@@ -2,14 +2,14 @@ apply plugin: "kotlin-platform-js"
 apply plugin: "org.jetbrains.kotlin.frontend"
 
 dependencies {
-  expectedBy(project(":common"))
+  expectedBy project(":common")
 
   compile "org.jetbrains.kotlinx:kotlinx-html-js:$kotlin_html_version"
   compile "org.jetbrains:kotlin-react-dom:$react_dom_version"
   compile "org.jetbrains:kotlin-styled:$styled_version"
 
-  compile("org.jetbrains.kotlin:kotlin-stdlib-js")
-  compile("org.jetbrains.kotlin:kotlin-test-js")
+  compile "org.jetbrains.kotlin:kotlin-stdlib-js"
+  compile "org.jetbrains.kotlin:kotlin-test-js"
 }
 
 kotlin {
@@ -28,6 +28,7 @@ kotlinFrontend {
     dependency "style-loader"
 
     devDependency("karma")
+    devDependency("qunit")
   }
 
   sourceMaps = true
@@ -39,5 +40,22 @@ kotlinFrontend {
   }
 
   define "PRODUCTION", false
+}
+
+task('run_Qunit', type: Exec) {
+  dependsOn "compileTestKotlin2Js"
+
+  commandLine "node",
+          "node_modules/qunit/bin/qunit",
+          "classes/kotlin/test/js_test.js"
+
+  environment "NODE_PATH", "$buildDir/classes/kotlin/main:$buildDir/classes/kotlin/test:$buildDir/node_modules"
+
+  workingDir(buildDir)
+}
+
+//TODO: make runner connect incrementals
+project.afterEvaluate {
+  tasks.getByName("karma-run-single").outputs.upToDateWhen { false }
 }
 
