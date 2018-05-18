@@ -17,10 +17,6 @@ class GeometryTest {
     assertEquals(-1.0, -1.0, t.toComplex(0, 0))
     assertEquals(1.0, 1.0, t.toComplex(10, 10))
     assertEquals(0.0, 0.0, t.toComplex(5, 5))
-
-    assertEquals(0, 0, t.toPoint(-1.0, -1.0))
-    assertEquals(10, 10, t.toPoint(1.0, 1.0))
-    assertEquals(5, 5, t.toPoint(0.0, 0.0))
   }
 }
 
