@@ -57,7 +57,6 @@ fun start(state: dynamic): ApplicationBase {
 
   println("Gray color is done")
 
-  /*
   println("Rendering Fractal")
   val t = Transformation(
           image.pixelRect,
@@ -65,7 +64,7 @@ fun start(state: dynamic): ApplicationBase {
 
   t.forEachPixel { p, c ->
     val it = MandelbrotPointIteration(c)
-    val isReachable = it.asSequence().drop(500).any()
+    val isReachable = it.asSequence().drop(1500).any()
     image.putPixel(p,
             if (isReachable) {
               Color.WHITE
@@ -75,38 +74,8 @@ fun start(state: dynamic): ApplicationBase {
   }
 
   image.commit()
-*/
-//
-//  println("It runs! 2. canvas weight=$width, height=$height")
-//
-//
-//
-//  val render = MondelbrotSetUpdatingRenderer(Transformation(
-//          Rect(0, 0, width, height),
-//
-//          Rect(-2.0, -2.0, 2.0, 2.0)
-//  ), ColorPicker(setup), setup)
-//
-//  render.toCanvasContext(ctx)
-//
-//  document.getElementById("iterate")!!.asDynamic().onclick = {
-//    repeat(500) {
-//      render.iterateOnce()
-//    }
-//
-//    println("Iteration done!")
-//    render.toCanvasContext(ctx)
-//  }
 
   //TODO: start the app some how
   return application
 }
 
-
-//fun MondelbrotSetUpdatingRenderer.toCanvasContext(ctx: CanvasRenderingContext2D) {
-//  println("It renders to Canvas!")
-//
-//  val image = JSCanvasPixelRenderer(t.pixelRect.width, t.pixelRect.height, ctx)
-//  iteratePixels { p, c -> image.putPixel(p,c) }
-//  image.commit()
-//}
