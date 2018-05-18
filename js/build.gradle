@@ -3,7 +3,6 @@ apply plugin: "org.jetbrains.kotlin.frontend"
 
 dependencies {
   expectedBy(project(":common"))
-  expectedBy(project(":common-complex"))
 
   compile "org.jetbrains.kotlinx:kotlinx-html-js:$kotlin_html_version"
   compile "org.jetbrains:kotlin-react-dom:$react_dom_version"
