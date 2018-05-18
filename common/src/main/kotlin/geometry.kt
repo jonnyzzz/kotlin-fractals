@@ -9,7 +9,7 @@ class Rect<T>(
         val bottom: T
 )
 
-class Point(
+data class Point(
         val x: Int,
         val y: Int
 )
@@ -66,3 +66,20 @@ class Transformation(
 
 fun Transformation.toComplex(c: Point) = toComplex(c.x, c.y)
 fun Transformation.toPoint(c: ComplexNumber) = toPoint(c.re, c.im)
+
+val Segment<Int>.size get() = (right - left).absoluteValue
+val Rect<Int>.pixels get() = X.size * Y.size
+val Rect<Int>.width get() = X.size
+val Rect<Int>.height get() = Y.size
+
+
+fun Transformation.fromIndexToPixel(it: Int) : Point {
+  val x = it % pixelRect.height + pixelRect.left
+  val y = it / pixelRect.height + pixelRect.top
+
+  return Point(x, y)
+}
+
+fun Transformation.fromIndex(it: Int): ComplexNumber {
+  return toComplex(fromIndexToPixel(it))
+}

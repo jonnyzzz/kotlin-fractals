@@ -57,5 +57,6 @@ task('run_Qunit', type: Exec) {
 //TODO: make runner connect incrementals
 project.afterEvaluate {
   tasks.getByName("karma-run-single").outputs.upToDateWhen { false }
+  tasks.getByName("webpack-bundle").dependsOn tasks.compileKotlin2Js, tasks.compileTestKotlin2Js
 }
 
