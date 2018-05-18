@@ -19,7 +19,9 @@ class JSCanvasPixelRenderer(
     get() = Rect(0, 0, right = width, bottom = height)
 
   fun fill(c: Color) {
-    pixelRect.forEachPixel { putPixel(it, c) }
+    pixelRect.forEachPixel {
+      putPixel(it, c)
+    }
   }
 
   fun putPixel(p: Point, c: Color) {

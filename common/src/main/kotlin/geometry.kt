@@ -64,7 +64,7 @@ fun Transformation.toComplex(c: Point) = toComplex(c.x, c.y)
 val Rect<Int>.pixels
   get() = X.size * Y.size
 
-inline fun Rect<Int>.forEachPixel(call: (Point) -> Unit) {
+fun Rect<Int>.forEachPixel(call: (Point) -> Unit) {
   (top until bottom).forEach { y ->
     (left until right).forEach { x ->
       call(Point(x, y))
@@ -72,7 +72,7 @@ inline fun Rect<Int>.forEachPixel(call: (Point) -> Unit) {
   }
 }
 
-inline fun Transformation.forEachPixel(call: (Point, ComplexNumber) -> Unit) {
+fun Transformation.forEachPixel(call: (Point, ComplexNumber) -> Unit) {
   pixelRect.forEachPixel { p ->
     call(p, toComplex(p))
   }
