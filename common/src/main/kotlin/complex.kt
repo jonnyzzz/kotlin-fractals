@@ -1,5 +1,8 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlin.math.max
+import kotlin.math.min
+
 
 data class ComplexNumber(val re: Double, val im: Double) {
   companion object {
@@ -19,3 +22,10 @@ operator fun ComplexNumber.times(n: ComplexNumber)
 
 val ComplexNumber.mod2 get() = re * re + im * im
 
+
+infix fun ComplexNumber.to(that: ComplexNumber) = Rect(
+        min(this.re, that.re),
+        min(this.im, that.im),
+        max(this.re, that.re),
+        max(this.im, that.im)
+)
