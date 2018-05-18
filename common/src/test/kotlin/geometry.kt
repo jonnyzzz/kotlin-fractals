@@ -1,6 +1,5 @@
 package org.jetbrains.demo.kotlinfractals
 
-import org.jetbrains.demo.complex.ComplexNumber
 import kotlin.math.absoluteValue
 import kotlin.test.Test
 import kotlin.test.assertEquals

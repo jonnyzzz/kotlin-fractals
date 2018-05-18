@@ -1,10 +1,5 @@
 package org.jetbrains.demo.kotlinfractals
 
-import org.jetbrains.demo.complex.ComplexNumber
-import org.jetbrains.demo.complex.mod2
-import org.jetbrains.demo.complex.plus
-import org.jetbrains.demo.complex.times
-
 object MandelbrotSet {
 
   fun isIncluded(x: Double, y: Double): Double {

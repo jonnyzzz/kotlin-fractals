@@ -1,4 +1,4 @@
-package org.jetbrains.demo.complex
+package org.jetbrains.demo.kotlinfractals
 
 
 data class ComplexNumber(val re: Double, val im: Double) {
