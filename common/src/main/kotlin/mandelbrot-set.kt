@@ -1,5 +1,7 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlin.math.ln
+
 object MandelbrotSet {
 
   fun isIncluded(x: Double, y: Double): Double {
@@ -20,26 +22,15 @@ object MandelbrotSet {
   }
 }
 
-interface IterationState {
-  val mod2 : Double
-
-  ///from 0 to 1
-  val iteration: Int
-}
-
-data class IterationSetup(
-  val maxIterations : Int
-)
-
 class MandelbrotPointIteration(
         val c: ComplexNumber
-) : IterationState, Iterator<MandelbrotPointIteration> {
+) : Iterator<MandelbrotPointIteration> {
   private var z = ComplexNumber.ZERO
 
-  override var iteration = 0
+  var iteration = 0
     private set
 
-  override var mod2 = 0.0
+  var mod2 = 0.0
     private set
 
   override fun next() : MandelbrotPointIteration {

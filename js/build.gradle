@@ -25,7 +25,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile) {
 
 kotlinFrontend {
   npm {
-    dependency "style-loader"
+    //color spaces
+    dependency "color-convert"
 
     devDependency("karma")
     devDependency("qunit")

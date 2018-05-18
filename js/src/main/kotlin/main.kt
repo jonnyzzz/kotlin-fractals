@@ -1,4 +1,5 @@
 import org.jetbrains.demo.kotlinfractals.Color
+import org.jetbrains.demo.kotlinfractals.ColorPicker
 import org.jetbrains.demo.kotlinfractals.JSCanvasPixelRenderer
 import org.jetbrains.demo.kotlinfractals.MandelbrotPointIteration
 import org.jetbrains.demo.kotlinfractals.Rect
@@ -62,14 +63,18 @@ fun start(state: dynamic): ApplicationBase {
           image.pixelRect,
           Rect(-2.0, -2.0, 2.0, 2.0))
 
+  val maxIterations = 1500
+  val picker = ColorPicker(maxIterations)
+
   t.forEachPixel { p, c ->
-    val isReachable = MandelbrotPointIteration(c).asSequence().drop(1500).firstOrNull()
-    image.putPixel(p,
-            if (isReachable != null) {
-              Color.WHITE
-            } else {
-              Color.BLACK
-            })
+    var pt = MandelbrotPointIteration(c)
+    repeat(maxIterations) {
+      if (pt.hasNext()) {
+        pt = pt.next()
+      }
+    }
+
+    image.putPixel(p, picker.selectColour(pt))
   }
 
   image.commit()
