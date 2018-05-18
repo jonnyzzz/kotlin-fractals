@@ -63,10 +63,9 @@ fun start(state: dynamic): ApplicationBase {
           Rect(-2.0, -2.0, 2.0, 2.0))
 
   t.forEachPixel { p, c ->
-    val it = MandelbrotPointIteration(c)
-    val isReachable = it.asSequence().drop(1500).any()
+    val isReachable = MandelbrotPointIteration(c).asSequence().drop(1500).firstOrNull()
     image.putPixel(p,
-            if (isReachable) {
+            if (isReachable != null) {
               Color.WHITE
             } else {
               Color.BLACK
