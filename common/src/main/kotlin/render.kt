@@ -1,6 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
-interface FractalImage {
+expect class FractalImage {
   val pixelRect : Rect<Int>
 
   fun putPixel(p: Pixel, c: Color)

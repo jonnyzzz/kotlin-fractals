@@ -2,9 +2,9 @@ package org.jetbrains.demo.kotlinfractals
 
 import org.w3c.dom.CanvasRenderingContext2D
 
-class JSCanvasPixelRenderer(
+actual class FractalImage(
         private val ctx: CanvasRenderingContext2D
-) : FractalImage {
+) {
 
   private val imageData = ctx.createImageData(
           ctx.canvas.width.toDouble(),
@@ -16,7 +16,7 @@ class JSCanvasPixelRenderer(
   val height
     get() = imageData.height
 
-  override val pixelRect
+  actual val pixelRect
     get() = Rect(0, 0, right = width, bottom = height)
 
   fun fill(c: Color) {
@@ -25,7 +25,7 @@ class JSCanvasPixelRenderer(
     }
   }
 
-  override fun putPixel(p: Pixel, c: Color) {
+  actual fun putPixel(p: Pixel, c: Color) {
     val base = 4 * (p.x + imageData.width * p.y)
 
     val image : dynamic = imageData.data
@@ -36,7 +36,7 @@ class JSCanvasPixelRenderer(
     image[base + 3] = 255
   }
 
-  override fun commit() {
+  actual fun commit() {
     println("Commit image to ctx: width=${imageData.width}, height=${imageData.height}")
     ctx.putImageData(imageData, 0.0, 0.0)
   }

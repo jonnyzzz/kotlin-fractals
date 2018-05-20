@@ -1,6 +1,6 @@
 import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.Complex
-import org.jetbrains.demo.kotlinfractals.JSCanvasPixelRenderer
+import org.jetbrains.demo.kotlinfractals.FractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
 import org.jetbrains.demo.kotlinfractals.Rect
@@ -54,7 +54,7 @@ fun start(state: dynamic): ApplicationBase {
   val canvas = document.getElementById("canvas") as HTMLCanvasElement
   val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
-  val image = JSCanvasPixelRenderer(ctx)
+  val image = FractalImage(ctx)
   println("client width=${image.width}, height=${image.height}")
   image.fill(Color.GRAY)
   image.commit()
