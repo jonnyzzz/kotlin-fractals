@@ -13,6 +13,10 @@ class MandelbrotRender(
 
   val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
 
+  var fractalArea : Rect<Double>
+    get() = t.fractalRect
+    set(value) = setArea(value)
+
   fun setArea(r : Rect<Double> = initialArea) {
     t = Transformation(image.pixelRect, r)
   }
