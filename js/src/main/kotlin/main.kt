@@ -1,9 +1,9 @@
 import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.ColorPicker
-import org.jetbrains.demo.kotlinfractals.ComplexNumber
+import org.jetbrains.demo.kotlinfractals.Complex
 import org.jetbrains.demo.kotlinfractals.JSCanvasPixelRenderer
 import org.jetbrains.demo.kotlinfractals.MandelbrotPointIteration
-import org.jetbrains.demo.kotlinfractals.Point
+import org.jetbrains.demo.kotlinfractals.Pixel
 import org.jetbrains.demo.kotlinfractals.Rect
 import org.jetbrains.demo.kotlinfractals.Transformation
 import org.jetbrains.demo.kotlinfractals.forEachPixel
@@ -89,7 +89,7 @@ fun start(state: dynamic): ApplicationBase {
     image.commit()
   }
 
-  var fromPixel = ComplexNumber.ZERO
+  var fromPixel = Complex.ZERO
 
   canvas.addEventListener("mousedown", {
     val p = it.toPoint()
@@ -120,4 +120,4 @@ fun start(state: dynamic): ApplicationBase {
   return application
 }
 
-fun Event.toPoint() = Point(asDynamic().layerX, asDynamic().layerY)
+fun Event.toPoint() = Pixel(asDynamic().layerX, asDynamic().layerY)

@@ -24,7 +24,7 @@ class JSCanvasPixelRenderer(
     }
   }
 
-  fun putPixel(p: Point, c: Color) {
+  fun putPixel(p: Pixel, c: Color) {
     val base = 4 * (p.x + imageData.width * p.y)
 
     val image : dynamic = imageData.data

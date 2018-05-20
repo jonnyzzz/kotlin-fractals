@@ -1,14 +1,12 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlin.math.ln
-
 object MandelbrotSet {
 
   fun isIncluded(x: Double, y: Double): Double {
     val maxIt = 100_000
 
-    val c = ComplexNumber(x, y)
-    var z = ComplexNumber.ZERO
+    val c = Complex(x, y)
+    var z = Complex.ZERO
 
     (1 until maxIt).forEach { count ->
       z = z * z + c
@@ -23,9 +21,9 @@ object MandelbrotSet {
 }
 
 class MandelbrotPointIteration(
-        val c: ComplexNumber
+        val c: Complex
 ) : Iterator<MandelbrotPointIteration> {
-  private var z = ComplexNumber.ZERO
+  private var z = Complex.ZERO
 
   var iteration = 0
     private set

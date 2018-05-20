@@ -9,7 +9,7 @@ class Rect<T>(
         val bottom: T
 )
 
-data class Point(
+data class Pixel(
         val x: Int,
         val y: Int
 )
@@ -52,27 +52,27 @@ class Transformation(
                                                  toScale: Segment<To>)
           = toScale.fromNorm(fromScale.normalize(c))
 
-  fun toComplex(x: Int, y: Int) : ComplexNumber {
+  fun toComplex(x: Int, y: Int) : Complex {
     val re = scale(x, pixelRect.X, fractalRect.X).toDouble()
     val im = scale(y, pixelRect.Y, fractalRect.Y).toDouble()
-    return ComplexNumber(re, im)
+    return Complex(re, im)
   }
 }
 
-fun Transformation.toComplex(c: Point) = toComplex(c.x, c.y)
+fun Transformation.toComplex(c: Pixel) = toComplex(c.x, c.y)
 
 val Rect<Int>.pixels
   get() = X.size * Y.size
 
-fun Rect<Int>.forEachPixel(call: (Point) -> Unit) {
+fun Rect<Int>.forEachPixel(call: (Pixel) -> Unit) {
   (top until bottom).forEach { y ->
     (left until right).forEach { x ->
-      call(Point(x, y))
+      call(Pixel(x, y))
     }
   }
 }
 
-fun Transformation.forEachPixel(call: (Point, ComplexNumber) -> Unit) {
+fun Transformation.forEachPixel(call: (Pixel, Complex) -> Unit) {
   pixelRect.forEachPixel { p ->
     call(p, toComplex(p))
   }

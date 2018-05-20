@@ -26,12 +26,12 @@ fun assertEqualsE(expected: Double, actual: Double) {
   }
 }
 
-fun assertEquals(re: Double, im: Double, actual: ComplexNumber) {
+fun assertEquals(re: Double, im: Double, actual: Complex) {
   assertEqualsE(re, actual.re)
   assertEqualsE(im, actual.im)
 }
 
-fun assertEquals(x: Int, y: Int, actual: Point) {
+fun assertEquals(x: Int, y: Int, actual: Pixel) {
   assertEquals(x, actual.x)
   assertEquals(y, actual.y)
 }
