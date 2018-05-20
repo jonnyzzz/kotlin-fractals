@@ -1,0 +1,12 @@
+apply plugin: 'konan'
+
+konanArtifacts {
+  program('fractals') {
+    enableMultiplatform true
+  }
+}
+
+dependencies {
+  expectedBy project(':common')
+}
+
