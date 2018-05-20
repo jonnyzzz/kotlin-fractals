@@ -2,7 +2,7 @@ package org.jetbrains.demo.kotlinfractals
 
 import kotlin.math.absoluteValue
 
-class Rect<T>(
+data class Rect<T>(
         val left: T,
         val top: T,
         val right: T,

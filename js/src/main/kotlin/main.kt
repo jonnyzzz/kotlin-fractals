@@ -67,6 +67,9 @@ fun start(state: dynamic): ApplicationBase {
     render.setArea(r)
     render.render()
     image.commit()
+
+    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "Area: ${render.fractalArea}"
+
   }
 
   var fromPixel = Complex.ZERO
