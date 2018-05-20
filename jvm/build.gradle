@@ -7,17 +7,9 @@ dependencies {
   compile("org.jetbrains.kotlin:kotlin-reflect")
   compile("org.jetbrains.kotlin:kotlin-test-junit")
 
-  compile "org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlin_html_version"
-
-  compile("com.fasterxml.jackson.core:jackson-core:2.9.4")
-  compile("com.fasterxml.jackson.core:jackson-databind:2.9.4")
-  compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4")
-
-
   compile "io.ktor:ktor-server-core:$ktor_version"
   compile "io.ktor:ktor-server-netty:$ktor_version"
-
-  compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5")
+  compile "io.ktor:ktor-html-builder:$ktor_version"
 
   compile 'ch.qos.logback:logback-classic:1.2.3'
   compile 'ch.qos.logback:logback-core:1.2.3'
