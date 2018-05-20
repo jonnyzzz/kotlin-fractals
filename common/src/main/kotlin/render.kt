@@ -1,11 +1,8 @@
 package org.jetbrains.demo.kotlinfractals
 
-expect class FractalImage {
+interface FractalImage {
   val pixelRect : Rect<Int>
-
   fun putPixel(p: Pixel, c: Color)
-
-  fun commit()
 }
 
 class MandelbrotRender(
@@ -14,7 +11,9 @@ class MandelbrotRender(
 ) {
   private lateinit var t : Transformation
 
-  fun setArea(r : Rect<Double> = Rect(-2.0, -2.0, 2.0, 2.0)) {
+  val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
+
+  fun setArea(r : Rect<Double> = initialArea) {
     t = Transformation(image.pixelRect, r)
   }
 
@@ -35,8 +34,6 @@ class MandelbrotRender(
 
       image.putPixel(p, picker.selectColour(pt))
     }
-
-    image.commit()
   }
 
   fun toComplex(p: Pixel) = t.toComplex(p)

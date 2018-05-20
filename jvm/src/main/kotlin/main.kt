@@ -19,7 +19,6 @@ import kotlinx.coroutines.experimental.io.ByteWriteChannel
 import kotlinx.coroutines.experimental.io.jvm.javaio.toOutputStream
 import kotlinx.html.body
 import kotlinx.html.h1
-import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -49,24 +48,23 @@ fun Application.main() {
       val height = 600
 
       val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-
-      img.draw {
-        //TODO: call common code there
-      }
+      MandelbrotRender(image = FractalGraphics(img)).render()
 
       call.respond(status = HttpStatusCode.OK, message = img.toMessage())
     }
   }
 }
 
-private inline fun <T> BufferedImage.draw(action: Graphics2D.() -> T) : T {
-  val g = createGraphics()
-  try {
-    return g.action()
-  } finally {
-    g.dispose()
+class FractalGraphics(val g : BufferedImage) : FractalImage {
+  override val pixelRect
+    get() = Rect(0, 0, g.width, g.height)
+
+  override fun putPixel(p: Pixel, c: Color) {
+    g.setRGB(p.x, p.y, c.toRGB())
   }
 }
+
+private fun Color.toRGB() = java.awt.Color(r, g, b).rgb
 
 private fun BufferedImage.toMessage() = let { img ->
   object : OutgoingContent.WriteChannelContent() {

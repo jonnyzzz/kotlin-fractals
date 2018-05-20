@@ -1,6 +1,6 @@
 import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.Complex
-import org.jetbrains.demo.kotlinfractals.FractalImage
+import org.jetbrains.demo.kotlinfractals.JSFractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
 import org.jetbrains.demo.kotlinfractals.Rect
@@ -54,20 +54,19 @@ fun start(state: dynamic): ApplicationBase {
   val canvas = document.getElementById("canvas") as HTMLCanvasElement
   val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
-  val image = FractalImage(ctx)
+  val image = JSFractalImage(ctx)
   println("client width=${image.width}, height=${image.height}")
   image.fill(Color.GRAY)
   image.commit()
 
   println("Gray color is done")
 
-  println("Rendering Fractal")
-
   val render = MandelbrotRender(image = image)
 
-  fun render(r: Rect<Double>) {
+  fun render(r: Rect<Double> = render.initialArea) {
     render.setArea(r)
     render.render()
+    image.commit()
   }
 
   var fromPixel = Complex.ZERO
@@ -91,8 +90,11 @@ fun start(state: dynamic): ApplicationBase {
   })
 
   document.getElementById("reset").unsafeCast<HTMLButtonElement>().addEventListener("click", {
-    render.setArea()
+    render()
   })
+
+  println("Rendering Fractal")
+  render()
 
   //TODO: start the app some how
   return application
