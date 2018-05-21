@@ -2,15 +2,21 @@ package org.jetbrains.demo.kotlinfractals
 
 import kotlin.math.ln
 
-data class Color(val r: Int, val g: Int, val b: Int) {
+
+expect fun colorFromHSL(h : Double,
+                        s: Double,
+                        l: Double) : Color
+
+data class Color(val r: Int,
+                 val g: Int,
+                 val b: Int)
+{
   companion object {
     val BLACK = Color(0, 0, 0)
     val GRAY = Color(127, 127, 127)
     val WHITE = Color(255, 255, 255)
   }
 }
-
-expect fun colorFromHSL(h : Double, s: Double, l: Double) : Color
 
 class ColorPicker(
         private val maxIterations: Int
