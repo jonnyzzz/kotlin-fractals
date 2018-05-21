@@ -10,6 +10,16 @@ import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.events.Event
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
+import react.ReactElement
+import react.createRef
+import react.dom.canvas
+import react.dom.h1
+import react.dom.p
+import react.dom.render
 import kotlin.browser.document
 
 
@@ -42,11 +52,45 @@ fun main(args: Array<String>) {
   println("ok...")
 }
 
+
+interface FractalCanvasProperties : RProps {
+}
+
+class FractalCanvas : RComponent<FractalCanvasProperties, RState>() {
+  val canvasRef = createRef<HTMLCanvasElement>()
+
+  override fun RBuilder.render() {
+    canvas {
+      attrs.height = "600"
+      attrs.width = "600"
+      ref = canvasRef
+    }
+  }
+
+  override fun componentDidMount() {
+    val ctx = canvasRef.current!!.getContext("2d") as CanvasRenderingContext2D
+
+    val image = JSFractalImage(ctx)
+    println("client width=${image.width}, height=${image.height}")
+    image.fill(Color.GRAY)
+    image.commit()
+  }
+}
+
+
 fun start(state: dynamic): ApplicationBase {
   println("start...")
 
   val application = object : ApplicationBase {
     override fun disposeAndExtractState() = mapOf<String, String>()
+  }
+
+  render(document.getElementById("reactElement")) {
+    h1 { +"Kotlin Multiplatform Fractals!" }
+    p { +"Mandelbrot set"}
+
+    child(FractalCanvas::class) {
+    }
   }
 
   println("It runs!")

@@ -5,9 +5,6 @@ dependencies {
   compile("org.jetbrains.kotlin:kotlin-stdlib-common")
   compile "org.jetbrains.kotlinx:kotlinx-html-common:$kotlin_html_version"
 
-  compile "org.jetbrains:kotlin-react:$react_version"
-  compile "org.jetbrains:kotlin-css-js:$css_version"
-
   compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlinx_coroutines_version"
 
   compile("org.jetbrains.kotlin:kotlin-test-common")

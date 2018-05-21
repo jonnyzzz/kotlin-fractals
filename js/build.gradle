@@ -8,6 +8,10 @@ dependencies {
   compile "org.jetbrains:kotlin-react-dom:$react_dom_version"
   compile "org.jetbrains:kotlin-styled:$styled_version"
 
+  compile "org.jetbrains:kotlin-react:$react_version"
+  compile "org.jetbrains:kotlin-css-js:$css_version"
+
+
   compile "org.jetbrains.kotlin:kotlin-stdlib-js"
   compile "org.jetbrains.kotlin:kotlin-test-js"
 }
@@ -27,6 +31,12 @@ kotlinFrontend {
   npm {
     //color spaces
     dependency "color-convert"
+    dependency "react"
+    dependency "react-dom"
+    dependency "@jetbrains/kotlin-css"
+    dependency "@jetbrains/kotlin-css-js"
+    dependency "@jetbrains/kotlin-react"
+    dependency "@jetbrains/kotlin-react-dom"
 
     devDependency("karma")
     devDependency("qunit")
