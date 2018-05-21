@@ -1,5 +1,7 @@
 import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.Complex
+import org.jetbrains.demo.kotlinfractals.FractalCanvas
+import org.jetbrains.demo.kotlinfractals.FractalCanvasProperties
 import org.jetbrains.demo.kotlinfractals.JSFractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
@@ -52,34 +54,6 @@ fun main(args: Array<String>) {
   println("ok...")
 }
 
-
-class FractalCanvasProperties : RProps {
-  var canvasWidth : Int = 600
-  var canvasHeight : Int = 600
-
-  var fractalArea = MandelbrotRender.initialArea
-}
-
-class FractalCanvas : RComponent<FractalCanvasProperties, RState>() {
-  val canvasRef = createRef<HTMLCanvasElement>()
-
-  override fun RBuilder.render() {
-    canvas {
-      attrs.height = "${props.canvasWidth}"
-      attrs.width = "${props.canvasHeight}"
-      ref = canvasRef
-    }
-  }
-
-  override fun componentDidMount() {
-    val canvas = canvasRef.current ?: return
-
-    val image = fractalImageFromCanvas(canvas)
-    println("client width=${image.width}, height=${image.height}")
-    MandelbrotRender(image = image).setArea(props.fractalArea).render()
-    image.commit()
-  }
-}
 
 fun start(state: dynamic): ApplicationBase {
   println("start...")
