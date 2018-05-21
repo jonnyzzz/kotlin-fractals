@@ -1,6 +1,10 @@
 package org.jetbrains.demo.kotlinfractals
 
 import org.w3c.dom.CanvasRenderingContext2D
+import org.w3c.dom.HTMLCanvasElement
+
+fun fractalImageFromCanvas(canvas : HTMLCanvasElement)
+        = JSFractalImage(canvas.getContext("2d") as CanvasRenderingContext2D)
 
 class JSFractalImage(
         private val ctx: CanvasRenderingContext2D

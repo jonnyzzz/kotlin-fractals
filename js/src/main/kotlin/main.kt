@@ -4,6 +4,7 @@ import org.jetbrains.demo.kotlinfractals.JSFractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
 import org.jetbrains.demo.kotlinfractals.Rect
+import org.jetbrains.demo.kotlinfractals.fractalImageFromCanvas
 import org.jetbrains.demo.kotlinfractals.to
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLButtonElement
@@ -14,7 +15,6 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.ReactElement
 import react.createRef
 import react.dom.canvas
 import react.dom.h1
@@ -53,7 +53,11 @@ fun main(args: Array<String>) {
 }
 
 
-interface FractalCanvasProperties : RProps {
+class FractalCanvasProperties : RProps {
+  var canvasWidth : Int = 600
+  var canvasHeight : Int = 600
+
+  var fractalArea = MandelbrotRender.initialArea
 }
 
 class FractalCanvas : RComponent<FractalCanvasProperties, RState>() {
@@ -61,22 +65,21 @@ class FractalCanvas : RComponent<FractalCanvasProperties, RState>() {
 
   override fun RBuilder.render() {
     canvas {
-      attrs.height = "600"
-      attrs.width = "600"
+      attrs.height = "${props.canvasWidth}"
+      attrs.width = "${props.canvasHeight}"
       ref = canvasRef
     }
   }
 
   override fun componentDidMount() {
-    val ctx = canvasRef.current!!.getContext("2d") as CanvasRenderingContext2D
+    val canvas = canvasRef.current ?: return
 
-    val image = JSFractalImage(ctx)
+    val image = fractalImageFromCanvas(canvas)
     println("client width=${image.width}, height=${image.height}")
-    image.fill(Color.GRAY)
+    MandelbrotRender(image = image).setArea(props.fractalArea).render()
     image.commit()
   }
 }
-
 
 fun start(state: dynamic): ApplicationBase {
   println("start...")
@@ -89,8 +92,7 @@ fun start(state: dynamic): ApplicationBase {
     h1 { +"Kotlin Multiplatform Fractals!" }
     p { +"Mandelbrot set"}
 
-    child(FractalCanvas::class) {
-    }
+    node(FractalCanvas::class, FractalCanvasProperties())
   }
 
   println("It runs!")
@@ -107,7 +109,7 @@ fun start(state: dynamic): ApplicationBase {
 
   val render = MandelbrotRender(image = image)
 
-  fun render(r: Rect<Double> = render.initialArea) {
+  fun render(r: Rect<Double> = MandelbrotRender.initialArea) {
     render.setArea(r)
     render.render()
     image.commit()
