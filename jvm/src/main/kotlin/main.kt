@@ -50,8 +50,8 @@ fun Application.main() {
     get("/mandelbrot") {
 
       println("Rendering image!")
-      val width = 600
-      val height = 600
+      val width = call.request.queryParameters["width"]?.toInt() ?: 600
+      val height = call.request.queryParameters["height"]?.toInt() ?: 600
 
       val top = call.request.queryParameters["top"]?.toDouble() ?: MandelbrotRender.initialArea.top
       val right = call.request.queryParameters["right"]?.toDouble() ?: MandelbrotRender.initialArea.right
