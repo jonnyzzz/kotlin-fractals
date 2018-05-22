@@ -105,7 +105,7 @@ fun ApplicationBase.initApp(state: dynamic) {
     //load from server (slooow)
     serverSideRender()
 
-    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "Area: ${render.fractalArea}"
+    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "${render.fractalArea}"
 
     clientSideRender()
   }
