@@ -50,6 +50,8 @@ fun Application.main() {
     get("/mandelbrot") {
 
       println("Rendering image!")
+      val jvm = !call.request.queryParameters["jvm"].equals("false", ignoreCase = true)
+
       val width = call.request.queryParameters["width"]?.toInt() ?: 600
       val height = call.request.queryParameters["height"]?.toInt() ?: 600
 
@@ -64,9 +66,11 @@ fun Application.main() {
         render()
       }
 
-      img.graphics {
-        font = Font("Arial", Font.BOLD, 64)
-        drawString("JVM", 460, 570)
+      if (jvm) {
+        img.graphics {
+          font = Font("Arial", Font.BOLD, 64)
+          drawString("JVM", 460, 570)
+        }
       }
 
       call.response.cacheControl(CacheControl.NoCache(CacheControl.Visibility.Public))
