@@ -31,6 +31,7 @@ class MandelbrotRender(
     val picker = ColorPicker(maxIterations)
 
     t.forEachPixel { p, c ->
+
       var pt = MandelbrotPointIteration(c)
       repeat(maxIterations) {
         if (pt.hasNext()) {
