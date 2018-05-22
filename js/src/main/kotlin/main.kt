@@ -11,6 +11,7 @@ import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.events.Event
 import kotlin.browser.document
+import kotlin.browser.window
 
 
 interface ApplicationBase {
@@ -49,7 +50,9 @@ fun start(state: dynamic): ApplicationBase {
     override fun disposeAndExtractState() = mapOf<String, String>()
   }
 
-  application.initApp(state)
+  window.setTimeout({
+    application.initApp(state)
+  }, 10)
 
   //TODO: start the app some how
   return application
