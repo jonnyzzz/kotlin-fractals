@@ -49,9 +49,20 @@ fun start(state: dynamic): ApplicationBase {
     override fun disposeAndExtractState() = mapOf<String, String>()
   }
 
+  application.initApp(state)
+
+  //TODO: start the app some how
+  return application
+}
+
+fun Event.toPoint() = Pixel(asDynamic().layerX, asDynamic().layerY)
+
+fun ApplicationBase.initApp(state: dynamic) {
   println("It runs!")
 
-  val canvas = document.getElementById("canvas") as HTMLCanvasElement
+  val canvas = document.getElementById("canvas") ?: return
+  canvas as HTMLCanvasElement
+
   val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
   val image = JSFractalImage(ctx)
@@ -98,9 +109,4 @@ fun start(state: dynamic): ApplicationBase {
 
   println("Rendering Fractal")
   render()
-
-  //TODO: start the app some how
-  return application
 }
-
-fun Event.toPoint() = Pixel(asDynamic().layerX, asDynamic().layerY)
