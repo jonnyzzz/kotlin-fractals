@@ -60,11 +60,10 @@ class FractalGraphics(val g : BufferedImage) : FractalImage {
     get() = Rect(0, 0, g.width, g.height)
 
   override fun putPixel(p: Pixel, c: Color) {
-    g.setRGB(p.x, p.y, c.toRGB())
+    g.setRGB(p.x, p.y, c.rgb)
   }
 }
 
-private fun Color.toRGB() = java.awt.Color(r, g, b).rgb
 
 private fun BufferedImage.toMessage() = let { img ->
   object : OutgoingContent.WriteChannelContent() {
