@@ -1,6 +1,7 @@
 package org.jetbrains.demo.kotlinfractals
 
 import org.w3c.dom.CanvasRenderingContext2D
+import org.w3c.dom.HTMLImageElement
 
 class JSFractalImage(
         private val ctx: CanvasRenderingContext2D
@@ -23,6 +24,10 @@ class JSFractalImage(
     pixelRect.forEachPixel {
       putPixel(it, c)
     }
+  }
+
+  fun loadFromImage(image: HTMLImageElement) {
+    ctx.drawImage(image, 0.0, 0.0)
   }
 
   override fun putPixel(p: Pixel, c: Color) {

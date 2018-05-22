@@ -7,8 +7,10 @@ import io.ktor.content.OutgoingContent
 import io.ktor.features.CallLogging
 import io.ktor.features.DefaultHeaders
 import io.ktor.html.respondHtml
+import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.response.cacheControl
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
@@ -19,6 +21,8 @@ import kotlinx.coroutines.experimental.io.ByteWriteChannel
 import kotlinx.coroutines.experimental.io.jvm.javaio.toOutputStream
 import kotlinx.html.body
 import kotlinx.html.h1
+import java.awt.Font
+import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
@@ -44,18 +48,43 @@ fun Application.main() {
     }
 
     get("/mandelbrot") {
+
+      println("Rendering image!")
       val width = 600
       val height = 600
 
-      val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-      MandelbrotRender(image = FractalGraphics(img)).render()
+      val top = call.request.queryParameters["top"]?.toDouble() ?: MandelbrotRender.initialArea.top
+      val right = call.request.queryParameters["right"]?.toDouble() ?: MandelbrotRender.initialArea.right
+      val bottom = call.request.queryParameters["bottom"]?.toDouble() ?: MandelbrotRender.initialArea.bottom
+      val left = call.request.queryParameters["left"]?.toDouble() ?: MandelbrotRender.initialArea.left
 
+      val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+      MandelbrotRender(image = FractalGraphics(img), maxIterations = 5_000).apply {
+        setArea(Rect(top = top, left = left, bottom = bottom, right = right))
+        render()
+      }
+
+      img.graphics {
+        font = Font("Arial", Font.BOLD, 64)
+        drawString("JVM", 460, 570)
+      }
+
+      call.response.cacheControl(CacheControl.NoCache(CacheControl.Visibility.Public))
       call.respond(status = HttpStatusCode.OK, message = img.toMessage())
     }
   }
 }
 
-class FractalGraphics(val g : BufferedImage) : FractalImage {
+inline fun BufferedImage.graphics(paint : Graphics2D.() -> Unit) {
+  val g = createGraphics()
+  try {
+    g.paint()
+  } finally {
+    g.dispose()
+  }
+}
+
+class FractalGraphics(val g: BufferedImage) : FractalImage {
   override val pixelRect
     get() = Rect(0, 0, g.width, g.height)
 

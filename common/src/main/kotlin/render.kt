@@ -11,7 +11,9 @@ class MandelbrotRender(
 ) {
   private lateinit var t : Transformation
 
-  val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
+  companion object {
+    val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
+  }
 
   var fractalArea : Rect<Double>
     get() = t.fractalRect

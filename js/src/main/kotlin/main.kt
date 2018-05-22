@@ -9,10 +9,11 @@ import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLImageElement
 import org.w3c.dom.events.Event
 import kotlin.browser.document
 import kotlin.browser.window
-
+import kotlin.js.Math
 
 interface ApplicationBase {
   fun disposeAndExtractState(): dynamic
@@ -75,15 +76,38 @@ fun ApplicationBase.initApp(state: dynamic) {
 
   println("Gray color is done")
 
-  val render = MandelbrotRender(image = image)
+  val render = MandelbrotRender(image = image, maxIterations = 200)
 
-  fun render(r: Rect<Double> = render.initialArea) {
+  fun serverSideRender() {
+    render.fractalArea.run {
+      println("Rendering with Server-side!: $this")
+
+      val loader = js("new Image();") as HTMLImageElement
+      loader.addEventListener("load", {
+        println("Loaded image from the file")
+        image.loadFromImage(loader)
+      })
+      loader.setAttribute("src", "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&random=${Math.random()}")
+    }
+  }
+
+  fun clientSideRender() {
+    //load local fast
+    window.setTimeout({
+      render.render()
+      image.commit()
+    })
+  }
+
+  fun render(r: Rect<Double> = MandelbrotRender.initialArea) {
     render.setArea(r)
-    render.render()
-    image.commit()
+
+    //load from server (slooow)
+    serverSideRender()
 
     document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "Area: ${render.fractalArea}"
 
+    clientSideRender()
   }
 
   var fromPixel = Complex.ZERO
@@ -107,7 +131,17 @@ fun ApplicationBase.initApp(state: dynamic) {
   })
 
   document.getElementById("reset").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+    println("Render executed")
     render()
+  })
+
+  document.getElementById("openInJVM").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+    serverSideRender()
+  })
+
+  document.getElementById("openInJS").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+    println("re-render with JS")
+    clientSideRender()
   })
 
   println("Rendering Fractal")
