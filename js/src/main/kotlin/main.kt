@@ -90,9 +90,12 @@ fun ApplicationBase.initApp(state: dynamic) {
       })
       val url = "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&width=${image.width}&height=${image.height}"
       document.getElementById("jvmLink").unsafeCast<HTMLDivElement>().innerHTML = buildString {
+
+
         appendHTML().a(href = "$url&jvm=false", target = "_blank") {
           +"Open JVM image in new window"
         }
+
       }
 
       //fake server is too slow
