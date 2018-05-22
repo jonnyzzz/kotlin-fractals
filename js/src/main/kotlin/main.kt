@@ -1,3 +1,5 @@
+import kotlinx.html.a
+import kotlinx.html.stream.appendHTML
 import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.Complex
 import org.jetbrains.demo.kotlinfractals.JSFractalImage
@@ -87,7 +89,13 @@ fun ApplicationBase.initApp(state: dynamic) {
         println("Loaded image from the file")
         image.loadFromImage(loader)
       })
-      loader.setAttribute("src", "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&random=${Math.random()}")
+      val url = "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&width=${image.width}&height=${image.height}"
+      document.getElementById("jvmLink").unsafeCast<HTMLDivElement>().innerHTML = buildString {
+        appendHTML().a(href = "$url&jvm=false", target = "_blank") {
+          + "Open JVM image in new window"
+        }
+      }
+      loader.setAttribute("src", url)
     }
   }
 
