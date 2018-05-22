@@ -15,7 +15,6 @@ import org.w3c.dom.HTMLImageElement
 import org.w3c.dom.events.Event
 import kotlin.browser.document
 import kotlin.browser.window
-import kotlin.js.Math
 
 interface ApplicationBase {
   fun disposeAndExtractState(): dynamic
@@ -92,10 +91,14 @@ fun ApplicationBase.initApp(state: dynamic) {
       val url = "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&width=${image.width}&height=${image.height}"
       document.getElementById("jvmLink").unsafeCast<HTMLDivElement>().innerHTML = buildString {
         appendHTML().a(href = "$url&jvm=false", target = "_blank") {
-          + "Open JVM image in new window"
+          +"Open JVM image in new window"
         }
       }
-      loader.setAttribute("src", url)
+
+      //fake server is too slow
+      window.setTimeout({
+        loader.setAttribute("src", url)
+      }, 3_000)
     }
   }
 
