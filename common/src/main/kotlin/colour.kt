@@ -3,7 +3,7 @@ package org.jetbrains.demo.kotlinfractals
 import kotlin.math.ln
 
 
-expect fun colorFromHSL(h : Double,
+expect fun colorFromHSL(h: Double,
                         s: Double,
                         l: Double) : Color
 
