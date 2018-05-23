@@ -1,6 +1,5 @@
 import kotlinx.html.a
 import kotlinx.html.stream.appendHTML
-import org.jetbrains.demo.kotlinfractals.Color
 import org.jetbrains.demo.kotlinfractals.Colors
 import org.jetbrains.demo.kotlinfractals.Complex
 import org.jetbrains.demo.kotlinfractals.GRAY
