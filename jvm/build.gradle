@@ -15,7 +15,6 @@ dependencies {
   compile "io.ktor:ktor-html-builder:$ktor_version"
 
   compile 'ch.qos.logback:logback-classic:1.2.3'
-  compile 'ch.qos.logback:logback-core:1.2.3'
 
   compile("junit:junit:4.12")
 }
