@@ -18,12 +18,10 @@ object MandelbrotRender {
     //TODO: split the job in chinks
     t.forEachPixel { p, c ->
 
-      var pt = MandelbrotPointIteration(c)
-      repeat(maxIterations) {
-        if (pt.hasNext()) {
-          pt = pt.next()
-        }
-      }
+      val pt = MandelbrotPointIteration(c)
+              .asSequence()
+              .take(maxIterations)
+              .last()
 
       image.putPixel(p, picker.selectColour(pt))
     }
