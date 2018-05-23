@@ -1,5 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -30,19 +31,22 @@ fun renderReactMain() {
 }
 
 interface MainComponentProps : RProps {
-  var canvasSize : ScreenInfo
+  var canvasSize: ScreenInfo
 }
 
 class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponentState>() {
+  enum class RenderMode { JVM, JS, MIXED }
 
   interface MainComponentState : RState {
     var mousePixel: PixelInfo?
-    var fractalRect : Rect<Double>
+    var fractalRect: Rect<Double>
+    var renderMode: RenderMode
   }
 
   init {
     state.apply {
       fractalRect = MandelbrotRender.initialArea
+      renderMode = RenderMode.JS
     }
   }
 
@@ -53,8 +57,14 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
       attrs {
         canvasSize = props.canvasSize
 
+        renderMode = state.renderMode
+
         renderImage = {
-          ReactRenderer.renderJS(it, state.fractalRect)
+          when (state.renderMode) {
+            RenderMode.JS -> ReactRenderer.renderJS(it, state.fractalRect)
+            RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
+            RenderMode.MIXED -> ReactRenderer.renderJVM(it, state.fractalRect)
+          }
         }
 
         onMouseMove = setStateAction {
@@ -64,11 +74,35 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     }
 
     styledDiv {
-      css { + Styles.status }
+      css { +Styles.status }
 
-      button { +"Reset" }
-      button { +"JVM" }
-      button { +"JS" }
+      button {
+        attrs {
+          onClickFunction = setStateAction { fractalRect = MandelbrotRender.initialArea }
+        }
+
+        +"Reset"
+      }
+
+      button {
+        attrs {
+          onClickFunction = setStateAction {
+            renderMode = RenderMode.JVM
+          }
+        }
+
+        +"JVM"
+      }
+
+      button {
+        attrs {
+          onClickFunction = setStateAction {
+            renderMode = RenderMode.JS
+          }
+        }
+
+        +"JS"
+      }
     }
 
     child(PixelInfoComponent::class) {
@@ -80,9 +114,9 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     }
 
     styledDiv {
-      css { + Styles.linkBlock}
-      a {
-        + "Open JVM image"
+      css { +Styles.linkBlock }
+      a(href = BackendRender.jvmClientURL(props.canvasSize, state.fractalRect)) {
+        +"Open JVM image"
       }
     }
   }

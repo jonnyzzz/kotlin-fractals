@@ -14,6 +14,8 @@ data class PixelInfo(val x : Int, val y: Int)
 interface AutoResizeCanvasControlProps : RProps {
   var canvasSize : ScreenInfo
 
+  //hack to make shouldComponentUpdate work
+  var renderMode : Any?
   var renderImage : ((JSFractalImage) -> Unit)?
 
   var onMouseMove : ((PixelInfo) -> Unit)?
@@ -26,6 +28,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
 
   override fun shouldComponentUpdate(nextProps: AutoResizeCanvasControlProps, nextState: RState): Boolean {
     if (props.canvasSize != nextProps.canvasSize) return true
+    if (props.renderMode != nextProps.renderMode) return true
 
     return false
   }

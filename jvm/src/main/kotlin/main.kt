@@ -49,8 +49,7 @@ fun Application.main() {
 
     get("/mandelbrot") {
 
-      println("Rendering image!")
-      val jvm = !call.request.queryParameters["jvm"].equals("false", ignoreCase = true)
+      val jvm = call.request.queryParameters["jvm"]?.equals("true", ignoreCase = true) ?: false
 
       val width = call.request.queryParameters["width"]?.toInt() ?: 600
       val height = call.request.queryParameters["height"]?.toInt() ?: 600
@@ -60,17 +59,21 @@ fun Application.main() {
       val bottom = call.request.queryParameters["bottom"]?.toDouble() ?: MandelbrotRender.initialArea.bottom
       val left = call.request.queryParameters["left"]?.toDouble() ?: MandelbrotRender.initialArea.left
 
+      val rect = Rect(top = top, left = left, bottom = bottom, right = right)
+
+      println("Rendering image! $width x $height: $rect, jvm=$jvm")
+
       val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
       MandelbrotRender.justRender(
               image = FractalGraphics(img),
               maxIterations = 5_000,
-              area = Rect(top = top, left = left, bottom = bottom, right = right)
+              area = rect
       )
 
       if (jvm) {
         img.graphics {
           font = Font("Arial", Font.BOLD, 64)
-          drawString("JVM", 460, 570)
+          drawString("JVM", width - 140, height - 30)
         }
       }
 
