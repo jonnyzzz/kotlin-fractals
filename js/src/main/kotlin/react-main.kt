@@ -39,6 +39,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
 
   interface MainComponentState : RState {
     var mousePixel: PixelInfo?
+    var mouseDownPixel: PixelInfo?
     var fractalRect: Rect<Double>
     var renderMode: RenderMode
   }
@@ -69,8 +70,14 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
           }
         }
 
-        onMouseMove = setStateAction {
-          mousePixel = it
+        onMouseMove = setStateAction { mousePixel = it }
+        onMouseDown = setStateAction { mouseDownPixel = it }
+        onMouseUp = setStateAction {
+          val fromC = toComplex(canvasSize, fractalRect, state.mouseDownPixel ?: return@setStateAction)
+          val toC = toComplex(canvasSize, fractalRect, it)
+          state.mouseDownPixel = null
+
+          fractalRect = fromC to toC
         }
       }
     }

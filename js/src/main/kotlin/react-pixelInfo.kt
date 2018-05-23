@@ -33,7 +33,7 @@ class PixelInfoComponent : RComponent<PixelInfoProps, RState>() {
       if (fractalRect != null) {
         br {}
         span {
-          +"${screenInfo % fractalRect..pixelInfo}"
+          +"${toComplex(screenInfo, fractalRect, pixelInfo)}"
         }
         br { }
         span {
@@ -42,9 +42,5 @@ class PixelInfoComponent : RComponent<PixelInfoProps, RState>() {
       }
     }
   }
-
-  operator fun Transformation.rangeTo(p: PixelInfo): Complex = toComplex(p.x, p.y)
-  operator fun ScreenInfo.rem(r: Rect<Double>) = Transformation(rect, r)
-  val ScreenInfo.rect get() = Rect(top = 0, left = 0, right = width, bottom = height)
 }
 
