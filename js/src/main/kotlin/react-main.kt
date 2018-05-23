@@ -56,10 +56,10 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
         renderImage = {
 
           MandelbrotRender.justRender(maxIterations = 200,
-                  image = this,
+                  image = it,
                   area = state.fractalRect)
 
-          commit()
+          it.commit()
         }
 
         onMouseMove = setStateAction {

@@ -14,7 +14,7 @@ data class PixelInfo(val x : Int, val y: Int)
 interface AutoResizeCanvasControlProps : RProps {
   var canvasSize : ScreenInfo
 
-  var renderImage : (JSFractalImage.() -> Unit)?
+  var renderImage : ((JSFractalImage) -> Unit)?
 
   var onMouseMove : ((PixelInfo) -> Unit)?
   var onMouseDown: ((PixelInfo) -> Unit)?
