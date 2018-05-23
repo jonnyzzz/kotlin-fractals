@@ -52,6 +52,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     child(AutoResizeCanvasControl::class) {
       attrs {
         canvasSize = props.canvasSize
+
         renderImage = {
 
           MandelbrotRender.justRender(maxIterations = 200,
