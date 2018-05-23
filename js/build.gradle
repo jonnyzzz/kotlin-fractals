@@ -29,7 +29,6 @@ kotlinFrontend {
     dependency "color-convert"
 
     devDependency("karma")
-    devDependency("qunit")
   }
 
   sourceMaps = true
@@ -43,22 +42,9 @@ kotlinFrontend {
   define "PRODUCTION", false
 }
 
-task('run_Qunit', type: Exec) {
-  dependsOn "compileTestKotlin2Js"
-
-  commandLine "node",
-          "node_modules/qunit/bin/qunit",
-          "classes/kotlin/test/js_test.js"
-
-  environment "NODE_PATH", "$buildDir/classes/kotlin/main:$buildDir/classes/kotlin/test:$buildDir/node_modules"
-
-  workingDir(buildDir)
-}
-
 //TODO: make runner connect incrementals
 project.afterEvaluate {
   tasks.getByName("karma-run-single").outputs.upToDateWhen { false }
   tasks.getByName("webpack-bundle").dependsOn tasks.compileKotlin2Js, tasks.compileTestKotlin2Js
   tasks.getByName("webpack-run").dependsOn tasks.getByName("webpack-bundle")
 }
-
