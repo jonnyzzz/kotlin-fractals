@@ -7,6 +7,7 @@ import org.jetbrains.demo.kotlinfractals.JSFractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
 import org.jetbrains.demo.kotlinfractals.Rect
+import org.jetbrains.demo.kotlinfractals.renderReactMain
 import org.jetbrains.demo.kotlinfractals.to
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLButtonElement

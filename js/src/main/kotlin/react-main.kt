@@ -1,39 +1,42 @@
+package org.jetbrains.demo.kotlinfractals
+
 import org.w3c.dom.HTMLCanvasElement
 import react.createRef
-import react.dom.body
 import react.dom.button
 import react.dom.canvas
 import react.dom.div
 import react.dom.h1
-import react.dom.head
 import react.dom.render
-import react.dom.title
+import styled.css
+import styled.styledCanvas
+import styled.styledDiv
 import kotlin.browser.document
 
 
 fun renderReactMain() {
-  render(document.documentElement) {
-    head {
-      title { +"Multiplatform Fractals in Kotlin" }
+  injectStyles()
+
+  document.title = "Fractals in Kotlin"
+
+  render(document.getElementById("root")) {
+    h1 { +"Kotlin Fractals" }
+
+    styledCanvas {
+      css { +Styles.canvas}
+      ref = createRef<HTMLCanvasElement>()
     }
-    body {
 
-      h1 { +"Kotlin Fractals" }
+    styledDiv {
+      css { + Styles.status }
 
-      canvas {
-        ref = createRef<HTMLCanvasElement>()
-      }
+      button { +"Reset" }
+      button { +"JVM" }
+      button { +"JS" }
+    }
 
-      div {
-        +"pixel info"
-      }
-
-      div {
-        button { +"Reset" }
-        button { +"JVM" }
-        button { +"JS" }
-      }
+    styledDiv {
+      css { + Styles.infoBlock }
+      +"pixel info"
     }
   }
 }
-

@@ -34,6 +34,8 @@ kotlinFrontend {
     dependency "color-convert"
     dependency "react"
     dependency "react-dom"
+    dependency "styled-components"
+    dependency "inline-style-prefixer"
 
     devDependency("karma")
   }
