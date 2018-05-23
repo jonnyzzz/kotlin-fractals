@@ -28,14 +28,13 @@ object BackendRender {
 
     loader.addEventListener("load", {
       println("Loaded image from the file")
+
+      //fake server is too slow
       window.setTimeout({
         onComplete(loader)
       }, 3_000)
     })
 
     loader.setAttribute("src", jvmClientURL(image, area, jvm = true))
-
-    //fake server is too slow
-
   }
 }
