@@ -32,6 +32,8 @@ kotlinFrontend {
   npm {
     //color spaces
     dependency "color-convert"
+    dependency "react"
+    dependency "react-dom"
 
     devDependency("karma")
   }

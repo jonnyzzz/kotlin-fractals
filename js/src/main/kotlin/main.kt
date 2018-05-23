@@ -46,8 +46,20 @@ fun main(args: Array<String>) {
   println("ok...")
 }
 
+fun startReact(state: dynamic) : ApplicationBase {
+  val application = object: ApplicationBase {
+    override fun disposeAndExtractState(): dynamic = js("{}")
+  }
+  renderReactMain()
+
+  return application
+}
+
 fun start(state: dynamic): ApplicationBase {
   println("start...")
+
+  return startReact(state)
+
 
   val application = object : ApplicationBase {
     override fun disposeAndExtractState() = mapOf<String, String>()
