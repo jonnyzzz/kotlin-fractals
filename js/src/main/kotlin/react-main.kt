@@ -54,12 +54,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
         canvasSize = props.canvasSize
 
         renderImage = {
-
-          MandelbrotRender.justRender(maxIterations = 200,
-                  image = it,
-                  area = state.fractalRect)
-
-          it.commit()
+          ReactRenderer.renderJS(it, state.fractalRect)
         }
 
         onMouseMove = setStateAction {
