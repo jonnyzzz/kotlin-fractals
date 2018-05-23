@@ -8,7 +8,6 @@ import react.dom.a
 import react.dom.button
 import react.dom.h1
 import react.dom.render
-import react.setState
 import styled.css
 import styled.styledDiv
 import kotlin.browser.document
@@ -19,19 +18,25 @@ fun renderReactMain() {
 
   document.title = "Fractals in Kotlin"
 
-  render(document.getElementById("root")) {
-    child(MainComponent::class) {
-
+  watchScreenSize { screen ->
+    render(document.getElementById("root")) {
+      child(MainComponent::class) {
+        attrs {
+          canvasSize = screen.toCanvasSize()
+        }
+      }
     }
   }
 }
 
-class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
+interface MainComponentProps : RProps {
+  var canvasSize : ScreenInfo
+}
+
+class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponentState>() {
 
   interface MainComponentState : RState {
     var mousePixel: PixelInfo?
-    var screenInfo: ScreenInfo?
-
     var fractalRect : Rect<Double>
   }
 
@@ -46,6 +51,7 @@ class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
 
     child(AutoResizeCanvasControl::class) {
       attrs {
+        canvasSize = props.canvasSize
         renderImage = {
 
           MandelbrotRender.justRender(maxIterations = 200,
@@ -55,11 +61,8 @@ class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
           commit()
         }
 
-        onMouseMove = { pixel, screen ->
-          setState {
-            mousePixel = pixel
-            screenInfo = screen
-          }
+        onMouseMove = setStateAction {
+          mousePixel = it
         }
       }
     }
@@ -76,7 +79,7 @@ class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
       attrs {
         pixelInfo = state.mousePixel
         fractalRect = state.fractalRect
-        screenInfo = state.screenInfo
+        canvasSize = props.canvasSize
       }
     }
 

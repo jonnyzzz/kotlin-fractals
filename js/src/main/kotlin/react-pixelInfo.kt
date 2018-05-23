@@ -13,14 +13,14 @@ import styled.styledDiv
 interface PixelInfoProps : RProps {
   var pixelInfo: PixelInfo?
   var fractalRect: Rect<Double>?
-  var screenInfo: ScreenInfo?
+  var canvasSize: ScreenInfo
 }
 
 
 class PixelInfoComponent : RComponent<PixelInfoProps, RState>() {
   override fun RBuilder.render() {
     val pixelInfo = props.pixelInfo ?: return
-    val screenInfo = props.screenInfo
+    val screenInfo = props.canvasSize
     val fractalRect = props.fractalRect
 
     styledDiv {
@@ -30,14 +30,11 @@ class PixelInfoComponent : RComponent<PixelInfoProps, RState>() {
         +"x=${pixelInfo.x}, y=${pixelInfo.y}"
       }
 
-      if (screenInfo != null && fractalRect != null) {
+      if (fractalRect != null) {
         br {}
         span {
           +"${screenInfo % fractalRect..pixelInfo}"
         }
-      }
-
-      if (fractalRect != null) {
         br { }
         span {
           +"[${fractalRect.left}, ${fractalRect.right}] x [${fractalRect.top}, ${fractalRect.bottom}]"

@@ -1,48 +1,42 @@
 package org.jetbrains.demo.kotlinfractals
 
-import Underscore
 import kotlinx.html.js.onMouseMoveFunction
-import org.w3c.dom.events.Event
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.setState
 import styled.css
 import styled.styledCanvas
-import kotlin.browser.window
 
-data class ScreenInfo(val width : Int, val height: Int)
 data class PixelInfo(val x : Int, val y: Int)
 
 interface AutoResizeCanvasControlProps : RProps {
-  var renderImage : (JSFractalImage.(ScreenInfo) -> Unit)?
+  var canvasSize : ScreenInfo
 
-  var onMouseMove : ((PixelInfo, ScreenInfo) -> Unit)?
-  var onMouseDown: ((PixelInfo, ScreenInfo) -> Unit)?
-  var onMouseUp: ((PixelInfo, ScreenInfo) -> Unit)?
+  var renderImage : (JSFractalImage.() -> Unit)?
+
+  var onMouseMove : ((PixelInfo) -> Unit)?
+  var onMouseDown: ((PixelInfo) -> Unit)?
+  var onMouseUp: ((PixelInfo) -> Unit)?
 }
 
-class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoResizeCanvasControl.CanvasState>() {
-  init {
-    state.updateSizeImpl()
-  }
+class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>() {
 
-  interface CanvasState : RState {
-    var height: Int
-    var width: Int
+  override fun shouldComponentUpdate(nextProps: AutoResizeCanvasControlProps, nextState: RState): Boolean {
+    if (props.canvasSize != nextProps.canvasSize) return true
+
+    return false
   }
 
   override fun RBuilder.render() {
     styledCanvas {
       //cache it just in case
-      val screenInfo = ScreenInfo(state.width, state.height)
 
       props.renderImage?.let { builder ->
         ref {
           if (it != null) {
             println("ref called")
-            builder(fractalImageFromCanvas(it), screenInfo)
+            builder(fractalImageFromCanvas(it))
           }
         }
       }
@@ -50,34 +44,16 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
       css { +Styles.canvas }
 
       attrs {
-        width = screenInfo.width.toString()
-        height = screenInfo.height.toString()
+        width = props.canvasSize.width.toString()
+        height = props.canvasSize.height.toString()
 
         props.onMouseMove?.let {
           onMouseMoveFunction = { e : dynamic ->
-            it(PixelInfo(e.nativeEvent.offsetX, e.nativeEvent.offsetY), screenInfo)
+            it(PixelInfo(e.nativeEvent.offsetX, e.nativeEvent.offsetY))
           }
         }
       }
     }
   }
 
-  private val onResize = Underscore.debounce(100) { _: Event ->
-    setState {
-      updateSizeImpl()
-    }
-  }
-
-  private fun CanvasState.updateSizeImpl() {
-    width = window.innerWidth - Styles.canvasBorder * 2
-    height = window.innerHeight - Styles.canvasBorder * 2 - Styles.canvasOffsetBottom - Styles.canvasOffsetBottom
-  }
-
-  override fun componentDidMount() {
-    window.addEventListener("resize", onResize)
-  }
-
-  override fun componentWillUnmount() {
-    window.removeEventListener("resize", onResize)
-  }
 }
