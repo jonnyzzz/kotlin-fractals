@@ -1,6 +1,7 @@
 package org.jetbrains.demo.kotlinfractals
 
 import Underscore
+import kotlinx.html.js.onMouseMoveFunction
 import org.w3c.dom.events.Event
 import react.RBuilder
 import react.RComponent
@@ -12,9 +13,11 @@ import styled.styledCanvas
 import kotlin.browser.window
 
 data class ScreenInfo(val width : Int, val height: Int)
+data class PixelInfo(val x : Int, val y: Int)
 
 interface AutoResizeCanvasControlProps : RProps {
   var renderImage : (JSFractalImage.(ScreenInfo) -> Unit)?
+  var onMouseMove : ((PixelInfo, ScreenInfo) -> Unit)?
 }
 
 class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoResizeCanvasControl.CanvasState>() {
@@ -47,6 +50,12 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
       attrs {
         width = screenInfo.width.toString()
         height = screenInfo.height.toString()
+
+        props.onMouseMove?.let {
+          onMouseMoveFunction = { e : dynamic ->
+            it(PixelInfo(e.layerX, e.layerY), screenInfo)
+          }
+        }
       }
     }
   }

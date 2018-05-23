@@ -17,7 +17,6 @@ fun renderReactMain() {
   render(document.getElementById("root")) {
     h1 { +"Kotlin Fractals" }
 
-
     child(AutoResizeCanvasControl::class) {
       attrs {
         renderImage = {
