@@ -3,6 +3,7 @@ package org.jetbrains.demo.kotlinfractals
 import Underscore
 import kotlinx.html.js.onMouseMoveFunction
 import org.w3c.dom.events.Event
+import org.w3c.dom.events.MouseEvent
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -17,7 +18,10 @@ data class PixelInfo(val x : Int, val y: Int)
 
 interface AutoResizeCanvasControlProps : RProps {
   var renderImage : (JSFractalImage.(ScreenInfo) -> Unit)?
+
   var onMouseMove : ((PixelInfo, ScreenInfo) -> Unit)?
+  var onMouseDown: ((PixelInfo, ScreenInfo) -> Unit)?
+  var onMouseUp: ((PixelInfo, ScreenInfo) -> Unit)?
 }
 
 class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoResizeCanvasControl.CanvasState>() {
@@ -45,7 +49,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
         }
       }
 
-      css {  +Styles.canvas }
+      css { +Styles.canvas }
 
       attrs {
         width = screenInfo.width.toString()
@@ -53,7 +57,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
 
         props.onMouseMove?.let {
           onMouseMoveFunction = { e : dynamic ->
-            it(PixelInfo(e.layerX, e.layerY), screenInfo)
+            it(PixelInfo(e.nativeEvent.offsetX, e.nativeEvent.offsetY), screenInfo)
           }
         }
       }
@@ -68,7 +72,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
 
   private fun CanvasState.updateSizeImpl() {
     width = window.innerWidth - Styles.canvasBorder * 2
-    height = window.innerHeight - - Styles.canvasBorder * 2 - Styles.canvasOffsetBottom - Styles.canvasOffsetBottom
+    height = window.innerHeight - Styles.canvasBorder * 2 - Styles.canvasOffsetBottom - Styles.canvasOffsetBottom
   }
 
   override fun componentDidMount() {
