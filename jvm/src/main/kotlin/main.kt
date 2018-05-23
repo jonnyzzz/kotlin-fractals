@@ -61,10 +61,11 @@ fun Application.main() {
       val left = call.request.queryParameters["left"]?.toDouble() ?: MandelbrotRender.initialArea.left
 
       val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-      MandelbrotRender(image = FractalGraphics(img), maxIterations = 5_000).apply {
-        setArea(Rect(top = top, left = left, bottom = bottom, right = right))
-        render()
-      }
+      MandelbrotRender.justRender(
+              image = FractalGraphics(img),
+              maxIterations = 5_000,
+              area = Rect(top = top, left = left, bottom = bottom, right = right)
+      )
 
       if (jvm) {
         img.graphics {
