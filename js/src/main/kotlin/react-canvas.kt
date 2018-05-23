@@ -1,6 +1,9 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.js.onMouseMoveFunction
+import kotlinx.html.js.onMouseUpFunction
+import org.w3c.dom.events.Event
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -56,13 +59,16 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
         width = props.canvasSize.width.toString()
         height = props.canvasSize.height.toString()
 
-        props.onMouseMove?.let {
-          onMouseMoveFunction = { e : dynamic ->
-            it(PixelInfo(e.nativeEvent.offsetX, e.nativeEvent.offsetY))
-          }
-        }
+        onMouseMoveFunction = fireCoordinatesEvent(props.onMouseMove)
+        onMouseDownFunction = fireCoordinatesEvent(props.onMouseDown)
+        onMouseUpFunction = fireCoordinatesEvent(props.onMouseUp)
       }
     }
   }
 
+  private fun fireCoordinatesEvent(it: ((PixelInfo) -> Unit)?) : (Event) -> Unit {
+    return { e: dynamic ->
+      it?.invoke(PixelInfo(e.nativeEvent.offsetX, e.nativeEvent.offsetY))
+    }
+  }
 }
