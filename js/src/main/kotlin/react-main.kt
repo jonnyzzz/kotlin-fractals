@@ -47,7 +47,11 @@ class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
     child(AutoResizeCanvasControl::class) {
       attrs {
         renderImage = {
-          fill(Color(32,45,234))
+
+          MandelbrotRender.justRender(maxIterations = 200,
+                  image = this,
+                  area = state.fractalRect)
+
           commit()
         }
 

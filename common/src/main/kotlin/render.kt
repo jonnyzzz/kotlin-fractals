@@ -13,6 +13,17 @@ class MandelbrotRender(
 
   companion object {
     val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
+
+    fun justRender(maxIterations : Int = 1500,
+                 image: FractalImage,
+                 area: Rect<Double>) {
+
+      MandelbrotRender(maxIterations = maxIterations, image = image).apply {
+        setArea(area)
+        render()
+      }
+
+    }
   }
 
   var fractalArea : Rect<Double>
