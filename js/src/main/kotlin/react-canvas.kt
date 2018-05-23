@@ -3,7 +3,6 @@ package org.jetbrains.demo.kotlinfractals
 import Underscore
 import kotlinx.html.js.onMouseMoveFunction
 import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
 import react.RBuilder
 import react.RComponent
 import react.RProps
