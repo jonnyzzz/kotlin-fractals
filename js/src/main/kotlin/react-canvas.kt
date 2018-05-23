@@ -7,6 +7,7 @@ import react.RProps
 import react.RState
 import styled.css
 import styled.styledCanvas
+import kotlin.browser.window
 
 data class PixelInfo(val x : Int, val y: Int)
 
@@ -21,6 +22,7 @@ interface AutoResizeCanvasControlProps : RProps {
 }
 
 class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>() {
+  private var timerTimeout : Int? = null
 
   override fun shouldComponentUpdate(nextProps: AutoResizeCanvasControlProps, nextState: RState): Boolean {
     if (props.canvasSize != nextProps.canvasSize) return true
@@ -35,8 +37,12 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
       props.renderImage?.let { builder ->
         ref {
           if (it != null) {
-            println("ref called")
-            builder(fractalImageFromCanvas(it))
+            timerTimeout = window.setTimeout({
+              builder(fractalImageFromCanvas(it))
+            })
+
+          } else {
+            timerTimeout?.let { window.clearTimeout(it) }
           }
         }
       }
