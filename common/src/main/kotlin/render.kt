@@ -15,6 +15,7 @@ object MandelbrotRender {
 
     val picker = ColorPicker(maxIterations)
 
+    //TODO: split the job in chinks
     t.forEachPixel { p, c ->
 
       var pt = MandelbrotPointIteration(c)
