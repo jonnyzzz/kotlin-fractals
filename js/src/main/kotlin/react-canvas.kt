@@ -1,42 +1,52 @@
 package org.jetbrains.demo.kotlinfractals
 
 import Underscore
-import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.events.Event
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.createRef
 import react.setState
 import styled.css
 import styled.styledCanvas
 import kotlin.browser.window
 
-class AutoResizeCanvasControl : RComponent<RProps, AutoResizeCanvasControl.CanvasState>() {
+data class ScreenInfo(val width : Int, val height: Int)
+
+interface AutoResizeCanvasControlProps : RProps {
+  var renderImage : (JSFractalImage.(ScreenInfo) -> Unit)?
+}
+
+class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoResizeCanvasControl.CanvasState>() {
   init {
     println("Init called")
     state.updateSizeImpl()
   }
 
   interface CanvasState : RState {
-    var height: Int?
-    var width: Int?
+    var height: Int
+    var width: Int
   }
-
-  private val canvas = createRef<HTMLCanvasElement>()
 
   override fun RBuilder.render() {
     styledCanvas {
-      ref = canvas
+      //cache it just in case
+      val screenInfo = ScreenInfo(state.width, state.height)
 
-      css {
-        +Styles.canvas
+      props.renderImage?.let { builder ->
+        ref {
+          if (it != null) {
+            println("ref called")
+            builder(fractalImageFromCanvas(it), screenInfo)
+          }
+        }
       }
 
+      css {  +Styles.canvas }
+
       attrs {
-        width = state.width.toString()
-        height = state.height.toString()
+        width = screenInfo.width.toString()
+        height = screenInfo.height.toString()
       }
     }
   }
@@ -53,6 +63,7 @@ class AutoResizeCanvasControl : RComponent<RProps, AutoResizeCanvasControl.Canva
   }
 
   override fun componentDidMount() {
+    println("mount")
     window.addEventListener("resize", onResize)
   }
 

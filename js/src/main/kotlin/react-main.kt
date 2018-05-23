@@ -19,7 +19,12 @@ fun renderReactMain() {
 
 
     child(AutoResizeCanvasControl::class) {
-
+      attrs {
+        renderImage = {
+          fill(Color(32,45,234))
+          commit()
+        }
+      }
     }
 
     styledDiv {
