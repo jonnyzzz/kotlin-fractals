@@ -5,40 +5,15 @@ interface FractalImage {
   fun putPixel(p: Pixel, c: Color)
 }
 
-class MandelbrotRender(
-        val maxIterations : Int = 1500,
-        val image: FractalImage
-) {
-  private lateinit var t : Transformation
+object MandelbrotRender {
+  val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
 
-  companion object {
-    val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
-
-    fun justRender(maxIterations : Int = 1500,
+  fun justRender(maxIterations : Int = 1500,
                  image: FractalImage,
                  area: Rect<Double>) {
 
-      MandelbrotRender(maxIterations = maxIterations, image = image).apply {
-        setArea(area)
-        render()
-      }
+    val  t = Transformation(image.pixelRect, area)
 
-    }
-  }
-
-  var fractalArea : Rect<Double>
-    get() = t.fractalRect
-    set(value) = setArea(value)
-
-  fun setArea(r : Rect<Double> = initialArea) {
-    t = Transformation(image.pixelRect, r)
-  }
-
-  init {
-    setArea()
-  }
-
-  fun render() {
     val picker = ColorPicker(maxIterations)
 
     t.forEachPixel { p, c ->
@@ -53,6 +28,4 @@ class MandelbrotRender(
       image.putPixel(p, picker.selectColour(pt))
     }
   }
-
-  fun toComplex(p: Pixel) = t.toComplex(p)
 }
