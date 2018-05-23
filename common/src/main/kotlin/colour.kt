@@ -8,26 +8,22 @@ expect fun colorFromHSL(h: Double,
                         s: Double,
                         l: Double) : Color
 
-data class Color(val r: Int,
-                 val g: Int,
-                 val b: Int)
-{
-  companion object {
-    val BLACK = Color(0, 0, 0)
-    val GRAY = Color(127, 127, 127)
-    val WHITE = Color(255, 255, 255)
-  }
-}
+expect class Color
+object Colors
+
+expect val Colors.BLACK: Color
+expect val Colors.WHITE: Color
+
 
 class ColorPicker(
         private val maxIterations: Int
 ) {
   fun selectColour(z: MandelbrotPointIteration): Color {
     if (z.hasNext()) {
-      return Color.BLACK
+      return Colors.BLACK
     }
 
     val s = z.iteration + 1 - ln( ln(z.mod2) / 2.0) / ln(2.0)
-    return colorFromHSL(30.0 + 10 * s, 80.0, 60.0)
+    return colorFromHSL(30.0 + 10 * s, 90.0, 50.0)
   }
 }

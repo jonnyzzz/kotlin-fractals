@@ -1,7 +1,9 @@
 import kotlinx.html.a
 import kotlinx.html.stream.appendHTML
 import org.jetbrains.demo.kotlinfractals.Color
+import org.jetbrains.demo.kotlinfractals.Colors
 import org.jetbrains.demo.kotlinfractals.Complex
+import org.jetbrains.demo.kotlinfractals.GRAY
 import org.jetbrains.demo.kotlinfractals.JSFractalImage
 import org.jetbrains.demo.kotlinfractals.MandelbrotRender
 import org.jetbrains.demo.kotlinfractals.Pixel
@@ -72,7 +74,7 @@ fun ApplicationBase.initApp(state: dynamic) {
 
   val image = JSFractalImage(ctx)
   println("client width=${image.width}, height=${image.height}")
-  image.fill(Color.GRAY)
+  image.fill(Colors.GRAY)
   image.commit()
 
   println("Gray color is done")

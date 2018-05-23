@@ -1,4 +1,7 @@
 apply plugin: "kotlin-platform-jvm"
+apply plugin: "application"
+
+mainClassName = "org.jetbrains.demo.kotlinfractals.MainKt"
 
 dependencies {
   expectedBy project(":common")
