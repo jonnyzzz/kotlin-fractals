@@ -91,87 +91,87 @@ fun ApplicationBase.initApp(state: dynamic) {
 
   println("Gray color is done")
 
-  val render = MandelbrotRender(image = image, maxIterations = 200)
-
-  fun serverSideRender() {
-    render.fractalArea.run {
-      println("Rendering with Server-side!: $this")
-
-      val loader = js("new Image();") as HTMLImageElement
-      loader.addEventListener("load", {
-        println("Loaded image from the file")
-        image.loadFromImage(loader)
-      })
-      val url = "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&width=${image.width}&height=${image.height}"
-      document.getElementById("jvmLink").unsafeCast<HTMLDivElement>().innerHTML = buildString {
-
-
-        appendHTML().a(href = "$url&jvm=false", target = "_blank") {
-          +"Open JVM image in new window"
-        }
-
-      }
-
-      //fake server is too slow
-      window.setTimeout({
-        loader.setAttribute("src", url)
-      }, 3_000)
-    }
-  }
-
-  fun clientSideRender() {
-    //load local fast
-    window.setTimeout({
-      render.render()
-      image.commit()
-    })
-  }
-
-  fun render(r: Rect<Double> = MandelbrotRender.initialArea) {
-    render.setArea(r)
-
-    //load from server (slooow)
-    serverSideRender()
-
-    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "${render.fractalArea}"
-
-    clientSideRender()
-  }
-
-  var fromPixel = Complex.ZERO
-  canvas.addEventListener("mousedown", {
-    val p = it.toPoint()
-    val c = render.toComplex(p)
-    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "$c"
-    fromPixel = c
-  })
-
-  canvas.addEventListener("mouseup", {
-    val p = it.toPoint()
-    val c = render.toComplex(p)
-    render(fromPixel to c)
-  })
-
-  canvas.addEventListener("mousemove", {
-    val p = it.toPoint()
-    val c = render.toComplex(p)
-    document.getElementById("pxU").unsafeCast<HTMLDivElement>().innerText = "$c"
-  })
-
-  document.getElementById("reset").unsafeCast<HTMLButtonElement>().addEventListener("click", {
-    println("Render executed")
-    render()
-  })
-
-  document.getElementById("openInJVM").unsafeCast<HTMLButtonElement>().addEventListener("click", {
-    serverSideRender()
-  })
-
-  document.getElementById("openInJS").unsafeCast<HTMLButtonElement>().addEventListener("click", {
-    println("re-render with JS")
-    clientSideRender()
-  })
-
-  println("Rendering Fractal")
-  render()
+//  val render = null.MandelbrotRender(image = image, maxIterations = 200)
+//
+//  fun serverSideRender() {
+//    render.fractalArea.run {
+//      println("Rendering with Server-side!: $this")
+//
+//      val loader = js("new Image();") as HTMLImageElement
+//      loader.addEventListener("load", {
+//        println("Loaded image from the file")
+//        image.loadFromImage(loader)
+//      })
+//      val url = "http://localhost:8888/mandelbrot?top=$top&right=$right&bottom=$bottom&left=$left&width=${image.width}&height=${image.height}"
+//      document.getElementById("jvmLink").unsafeCast<HTMLDivElement>().innerHTML = buildString {
+//
+//
+//        appendHTML().a(href = "$url&jvm=false", target = "_blank") {
+//          +"Open JVM image in new window"
+//        }
+//
+//      }
+//
+//      //fake server is too slow
+//      window.setTimeout({
+//        loader.setAttribute("src", url)
+//      }, 3_000)
+//    }
+//  }
+//
+//  fun clientSideRender() {
+//    //load local fast
+//    window.setTimeout({
+//      render.render()
+//      image.commit()
+//    })
+//  }
+//
+//  fun render(r: Rect<Double> = MandelbrotRender.initialArea) {
+//    render.setArea(r)
+//
+//    //load from server (slooow)
+//    serverSideRender()
+//
+//    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "${render.fractalArea}"
+//
+//    clientSideRender()
+//  }
+//
+//  var fromPixel = Complex.ZERO
+//  canvas.addEventListener("mousedown", {
+//    val p = it.toPoint()
+//    val c = render.toComplex(p)
+//    document.getElementById("pxD").unsafeCast<HTMLDivElement>().innerText = "$c"
+//    fromPixel = c
+//  })
+//
+//  canvas.addEventListener("mouseup", {
+//    val p = it.toPoint()
+//    val c = render.toComplex(p)
+//    render(fromPixel to c)
+//  })
+//
+//  canvas.addEventListener("mousemove", {
+//    val p = it.toPoint()
+//    val c = render.toComplex(p)
+//    document.getElementById("pxU").unsafeCast<HTMLDivElement>().innerText = "$c"
+//  })
+//
+//  document.getElementById("reset").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+//    println("Render executed")
+//    render()
+//  })
+//
+//  document.getElementById("openInJVM").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+//    serverSideRender()
+//  })
+//
+//  document.getElementById("openInJS").unsafeCast<HTMLButtonElement>().addEventListener("click", {
+//    println("re-render with JS")
+//    clientSideRender()
+//  })
+//
+//  println("Rendering Fractal")
+//  render()
 }
