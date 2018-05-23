@@ -2,6 +2,7 @@ package org.jetbrains.demo.kotlinfractals
 
 import org.w3c.dom.HTMLCanvasElement
 import react.createRef
+import react.dom.a
 import react.dom.button
 import react.dom.canvas
 import react.dom.div
@@ -37,6 +38,13 @@ fun renderReactMain() {
     styledDiv {
       css { + Styles.infoBlock }
       +"pixel info"
+    }
+
+    styledDiv {
+      css { + Styles.linkBlock}
+      a {
+        + "Open JVM image"
+      }
     }
   }
 }

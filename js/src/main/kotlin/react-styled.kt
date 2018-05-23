@@ -37,6 +37,14 @@ object Styles : StyleSheet("jonnyzzz", isStatic = true) {
     padding(bottom = 12.px, right = 12.px)
   }
 
+  val linkBlock by css {
+    position = absolute
+
+    top = 0.px
+    right = 0.px
+    padding(top = 12.px, right = 12.px)
+  }
+
   val canvas by css {
     position = absolute
 
