@@ -44,10 +44,12 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
   }
 
   init {
-    state.apply {
-      fractalRect = MandelbrotRender.initialArea
-      renderMode = RenderMode.JS
-    }
+    state.reset()
+  }
+
+  fun MainComponentState.reset() {
+    fractalRect = MandelbrotRender.initialArea
+    renderMode = RenderMode.MIXED
   }
 
   override fun RBuilder.render() {
@@ -63,7 +65,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
           when (state.renderMode) {
             RenderMode.JS -> ReactRenderer.renderJS(it, state.fractalRect)
             RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
-            RenderMode.MIXED -> ReactRenderer.renderJVM(it, state.fractalRect)
+            RenderMode.MIXED -> ReactRenderer.renderMixed(it, state.fractalRect)
           }
         }
 
@@ -78,7 +80,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
 
       button {
         attrs {
-          onClickFunction = setStateAction { fractalRect = MandelbrotRender.initialArea }
+          onClickFunction = setStateAction { reset() }
         }
 
         +"Reset"
@@ -86,9 +88,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
 
       button {
         attrs {
-          onClickFunction = setStateAction {
-            renderMode = RenderMode.JVM
-          }
+          onClickFunction = setStateAction { renderMode = RenderMode.JVM }
         }
 
         +"JVM"
@@ -96,9 +96,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
 
       button {
         attrs {
-          onClickFunction = setStateAction {
-            renderMode = RenderMode.JS
-          }
+          onClickFunction = setStateAction { renderMode = RenderMode.JS }
         }
 
         +"JS"

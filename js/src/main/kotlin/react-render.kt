@@ -18,6 +18,15 @@ object ReactRenderer {
     }
   }
 
+
+  fun renderMixed(image: JSFractalImage, area: Rect<Double>) {
+    //this one is async
+    renderJVM(image, area)
+
+    //that one performs computation directly
+    renderJS(image, area)
+  }
+
 }
 
 val JSFractalImage.screenInfo get() = ScreenInfo(width, height)
