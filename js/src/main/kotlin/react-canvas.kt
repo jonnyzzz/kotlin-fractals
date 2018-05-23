@@ -25,7 +25,6 @@ interface AutoResizeCanvasControlProps : RProps {
 
 class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoResizeCanvasControl.CanvasState>() {
   init {
-    println("Init called")
     state.updateSizeImpl()
   }
 
@@ -75,7 +74,6 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, AutoRes
   }
 
   override fun componentDidMount() {
-    println("mount")
     window.addEventListener("resize", onResize)
   }
 
