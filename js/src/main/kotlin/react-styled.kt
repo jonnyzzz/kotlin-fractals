@@ -4,17 +4,13 @@ import kotlinext.js.invoke
 import kotlinx.css.BorderStyle
 import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
-import kotlinx.css.Float
-import kotlinx.css.Float.right
-import kotlinx.css.Position
-import kotlinx.css.Position.*
+import kotlinx.css.Position.absolute
 import kotlinx.css.RuleSet
 import kotlinx.css.TagSelector
 import kotlinx.css.body
 import kotlinx.css.button
 import kotlinx.css.margin
 import kotlinx.css.padding
-import kotlinx.css.pct
 import kotlinx.css.properties.border
 import kotlinx.css.properties.lh
 import kotlinx.css.px
@@ -23,6 +19,11 @@ import styled.StyleSheet
 import styled.StyledComponents
 
 object Styles : StyleSheet("jonnyzzz", isStatic = true) {
+  val canvasOffsetTop = 50
+  val canvasOffsetBottom = 50
+
+  val canvasBorder = 1
+
   val status by css {
     position = absolute
     bottom = 0.px
@@ -48,7 +49,10 @@ object Styles : StyleSheet("jonnyzzz", isStatic = true) {
   val canvas by css {
     position = absolute
 
-    border(width = 1.px, style = BorderStyle.solid, color = Color.black)
+    top = canvasOffsetTop.px
+    left = 0.px
+
+    border(width = canvasBorder.px, style = BorderStyle.solid, color = Color.black)
   }
 }
 

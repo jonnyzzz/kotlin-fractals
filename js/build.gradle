@@ -36,6 +36,7 @@ kotlinFrontend {
     dependency "react-dom"
     dependency "styled-components"
     dependency "inline-style-prefixer"
+    dependency "underscore"
 
     devDependency("karma")
   }
