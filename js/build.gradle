@@ -50,6 +50,6 @@ kotlinFrontend {
 //TODO: make runner connect incrementals
 project.afterEvaluate {
   tasks.getByName("karma-run-single").outputs.upToDateWhen { false }
-  tasks.getByName("webpack-bundle").dependsOn tasks.compileKotlin2Js, tasks.compileTestKotlin2Js
+  tasks.getByName("webpack-bundle").dependsOn tasks.compileKotlin2Js, tasks.compileTestKotlin2Js, tasks.getByName("npm-deps")
   tasks.getByName("webpack-run").dependsOn tasks.getByName("webpack-bundle")
 }
