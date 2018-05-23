@@ -29,8 +29,16 @@ fun renderReactMain() {
 class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
 
   interface MainComponentState : RState {
-    var mousePixel : PixelInfo
-    var screenInfo: ScreenInfo
+    var mousePixel: PixelInfo?
+    var screenInfo: ScreenInfo?
+
+    var fractalRect : Rect<Double>
+  }
+
+  init {
+    state.apply {
+      fractalRect = MandelbrotRender.initialArea
+    }
   }
 
   override fun RBuilder.render() {
@@ -60,9 +68,12 @@ class MainComponent : RComponent<RProps, MainComponent.MainComponentState>() {
       button { +"JS" }
     }
 
-    styledDiv {
-      css { + Styles.infoBlock }
-      + "pixel info ${state.mousePixel}"
+    child(PixelInfoComponent::class) {
+      attrs {
+        pixelInfo = state.mousePixel
+        fractalRect = state.fractalRect
+        screenInfo = state.screenInfo
+      }
     }
 
     styledDiv {

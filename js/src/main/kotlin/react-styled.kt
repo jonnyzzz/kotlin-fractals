@@ -4,11 +4,15 @@ import kotlinext.js.invoke
 import kotlinx.css.BorderStyle
 import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
+import kotlinx.css.Float
 import kotlinx.css.Position.absolute
 import kotlinx.css.RuleSet
 import kotlinx.css.TagSelector
+import kotlinx.css.TextAlign
 import kotlinx.css.body
 import kotlinx.css.button
+import kotlinx.css.div
+import kotlinx.css.em
 import kotlinx.css.margin
 import kotlinx.css.padding
 import kotlinx.css.properties.border
@@ -20,7 +24,7 @@ import styled.StyledComponents
 
 object Styles : StyleSheet("jonnyzzz", isStatic = true) {
   val canvasOffsetTop = 50
-  val canvasOffsetBottom = 50
+  val canvasOffsetBottom = 60
 
   val canvasBorder = 1
 
@@ -36,6 +40,8 @@ object Styles : StyleSheet("jonnyzzz", isStatic = true) {
     right = 0.px
 
     padding(bottom = 12.px, right = 12.px)
+
+    textAlign = TextAlign.right
   }
 
   val linkBlock by css {

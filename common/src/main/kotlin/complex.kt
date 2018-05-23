@@ -1,5 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 
@@ -8,6 +9,13 @@ data class Complex(val re: Double, val im: Double) {
   companion object {
     val ZERO = Complex(0.0, 0.0)
     val i = Complex(0.0, 1.0)
+  }
+
+  override fun toString(): String {
+    return "$re " + if (im < 0)
+      "- ${im.absoluteValue}i"
+    else
+      "+ ${im.absoluteValue}i"
   }
 }
 
