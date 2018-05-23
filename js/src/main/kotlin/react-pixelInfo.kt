@@ -5,7 +5,6 @@ import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.br
-import react.dom.div
 import react.dom.span
 import styled.css
 import styled.styledDiv
