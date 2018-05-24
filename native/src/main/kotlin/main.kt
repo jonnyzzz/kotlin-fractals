@@ -4,7 +4,7 @@ fun Array<String>.arg(arg: String, def: Int) : Int  {
   val prefix = "--$arg="
   return firstOrNull { it.startsWith(prefix) }?.
           removePrefix(prefix)?.
-          toInt() ?: def
+          toIntOrNull() ?: def
 }
 
 fun main(args: Array<String>) {
