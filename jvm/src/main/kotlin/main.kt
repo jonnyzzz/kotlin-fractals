@@ -1,6 +1,7 @@
 package org.jetbrains.demo.kotlinfractals
 
 import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.content.OutgoingContent
@@ -49,15 +50,15 @@ fun Application.main() {
 
     get("/mandelbrot") {
 
-      val jvm = call.request.queryParameters["jvm"]?.equals("true", ignoreCase = true) ?: false
+      val jvm = call.paramBoolean("jvm")
 
-      val width = call.request.queryParameters["width"]?.toInt() ?: 600
-      val height = call.request.queryParameters["height"]?.toInt() ?: 600
+      val width = call.paramInt("width", 600)
+      val height = call.paramInt("height", 600)
 
-      val top = call.request.queryParameters["top"]?.toDouble() ?: MandelbrotRender.initialArea.top
-      val right = call.request.queryParameters["right"]?.toDouble() ?: MandelbrotRender.initialArea.right
-      val bottom = call.request.queryParameters["bottom"]?.toDouble() ?: MandelbrotRender.initialArea.bottom
-      val left = call.request.queryParameters["left"]?.toDouble() ?: MandelbrotRender.initialArea.left
+      val top = call.paramDouble("top", MandelbrotRender.initialArea.top)
+      val right = call.paramDouble("right",  MandelbrotRender.initialArea.right)
+      val bottom = call.paramDouble("bottom", MandelbrotRender.initialArea.bottom)
+      val left = call.paramDouble("left", MandelbrotRender.initialArea.left)
 
       val rect = Rect(top = top, left = left, bottom = bottom, right = right)
 
@@ -82,6 +83,13 @@ fun Application.main() {
     }
   }
 }
+
+
+inline fun <T: Any> ApplicationCall.param(name: String, µ: String.() -> T?, def: T) = request.queryParameters[name]?.µ() ?: def
+fun ApplicationCall.paramInt(name: String, def: Int) = param(name, {toIntOrNull()}, def)
+fun ApplicationCall.paramDouble(name: String, def: Double) = param(name, {toDoubleOrNull()}, def)
+fun ApplicationCall.paramBoolean(name: String, def: Boolean = false) = param(name, {toBoolean()}, def)
+
 
 inline fun BufferedImage.graphics(paint : Graphics2D.() -> Unit) {
   val g = createGraphics()
