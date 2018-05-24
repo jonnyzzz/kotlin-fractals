@@ -151,7 +151,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     if (mouseDownPixel != null && mousePixel != null) {
       styledDiv {
         css {
-          Styles.apply { canvasZoom(mousePixel, mouseDownPixel) }
+          Styles.apply { canvasZoom(mousePixel.toScreen(), mouseDownPixel.toScreen()) }
         }
       }
     }

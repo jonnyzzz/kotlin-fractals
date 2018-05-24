@@ -1,11 +1,10 @@
-
 package org.jetbrains.demo.kotlinfractals
 
 import Underscore
 import org.w3c.dom.events.Event
 import kotlin.browser.window
 
-data class ScreenInfo(val width : Int, val height: Int)
+data class ScreenInfo(val width: Int, val height: Int)
 
 fun watchScreenSize(onChange: (ScreenInfo) -> Unit) {
   fun fireUpdateSize() {
@@ -13,7 +12,7 @@ fun watchScreenSize(onChange: (ScreenInfo) -> Unit) {
   }
 
   val onResize = Underscore.debounce(100) { _: Event ->
-      fireUpdateSize()
+    fireUpdateSize()
   }
   window.addEventListener("resize", onResize)
 
@@ -23,5 +22,10 @@ fun watchScreenSize(onChange: (ScreenInfo) -> Unit) {
 
 fun ScreenInfo.toCanvasSize() = ScreenInfo(
         width = width - Styles.canvasBorder * 2,
-        height = height - Styles.canvasBorder * 2 - Styles.canvasOffsetBottom - Styles.canvasOffsetBottom
+        height = height - Styles.canvasBorder * 2 - Styles.canvasOffsetBottom - Styles.canvasOffsetTop
+)
+
+fun PixelInfo.toScreen() = PixelInfo(
+        x = x + Styles.canvasBorder,
+        y = y + Styles.canvasBorder + Styles.canvasOffsetTop
 )
