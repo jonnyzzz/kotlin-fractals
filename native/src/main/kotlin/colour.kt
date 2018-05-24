@@ -6,7 +6,7 @@ actual fun Colors.hsl(h: Double,
                       s: Double,
                       l: Double): Color {
   //OK for console mode, for now
-1  return Colors.WHITE
+  return Colors.WHITE
 }
 
 actual class Color private constructor() {
