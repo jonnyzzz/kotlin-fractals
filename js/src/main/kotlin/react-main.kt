@@ -1,5 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
@@ -66,40 +67,39 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     }
   }
 
+  private suspend fun CoroutineScope.renderImage(img: JSFractalImage) = ReactRenderer.apply {
+    when (state.renderMode) {
+      RenderMode.JS -> renderJS(img, state.fractalRect)
+      RenderMode.JVM -> renderJVM(img, state.fractalRect)
+      RenderMode.MIXED -> renderMixed(img, state.fractalRect)
+    }
+    println("Rendering completed")
+  }
+
+  private fun MainComponentState.handleMouseClick(it : PixelInfo) {
+    if (mouseDownPixel == null) {
+      mouseDownPixel = it
+      return
+    }
+
+    val canvasSize = props.canvasSize
+    val fromC = toComplex(canvasSize, fractalRect, mouseDownPixel ?: return)
+    val toC = toComplex(canvasSize, fractalRect, it)
+    fractalRect = fromC to toC
+
+    resetMouse()
+  }
+
   override fun RBuilder.render() {
     h1 { +"Kotlin Fractals" }
 
     child(AutoResizeCanvasControl::class) {
       attrs {
         canvasSize = props.canvasSize
-
         renderMode = listOf(state.renderMode, state.fractalRect)
-
-        renderImage = {
-          ReactRenderer.apply {
-            when (state.renderMode) {
-              RenderMode.JS -> renderJS(it, state.fractalRect)
-              RenderMode.JVM -> renderJVM(it, state.fractalRect)
-              RenderMode.MIXED -> renderMixed(it, state.fractalRect)
-            }
-          }
-          println("Rendering completed")
-        }
-
+        renderImage = { renderImage(it) }
         onMouseMove = setStateAction { mousePixel = it }
-
-        onMouseClick = setStateAction {
-          if (mouseDownPixel == null) {
-            mouseDownPixel = it
-          } else {
-            val fromC = toComplex(canvasSize, fractalRect, mouseDownPixel ?: return@setStateAction)
-            val toC = toComplex(canvasSize, fractalRect, it)
-
-            fractalRect = fromC to toC
-
-            resetMouse()
-          }
-        }
+        onMouseClick = setStateAction { handleMouseClick(it) }
       }
     }
 
@@ -108,19 +108,16 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
 
       button {
         attrs.onClickFunction = setStateAction { reset() }
-
         +"Reset"
       }
 
       button {
         attrs.onClickFunction = setStateAction { renderMode = RenderMode.JVM }
-
         +"JVM"
       }
 
       button {
         attrs.onClickFunction = setStateAction { renderMode = RenderMode.JS }
-
         +"JS"
       }
     }

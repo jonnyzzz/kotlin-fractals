@@ -9,16 +9,12 @@ actual fun Colors.hsl(h: Double,
                       s: Double,
                       l: Double): Color {
   val x = lib.hsl.rgb(h, s, l)
-  return Color(x[0], x[1], x[2])
+  fun N(i : Int)
+          = (x[i] as Int).absoluteValue % 256
+  return Color(N(0), N(1), N(2))
 }
 
-actual class Color(r: Int,
-                   g: Int,
-                   b: Int) {
-  val r = r.absoluteValue % 256
-  val g = g.absoluteValue % 256
-  val b = b.absoluteValue % 256
-}
+actual class Color(val r: Int, val g: Int, val b: Int)
 
 actual val Colors.BLACK
   get() = Color(0, 0, 0)
