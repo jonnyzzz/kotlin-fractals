@@ -85,20 +85,21 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
             RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
             RenderMode.MIXED -> ReactRenderer.renderMixed(it, state.fractalRect)
           }
-
-          setState {
-            resetMouse()
-          }
         }
 
         onMouseMove = setStateAction { mousePixel = it }
-        onMouseDown = setStateAction { mouseDownPixel = it }
-        onMouseUp = setStateAction {
-          val fromC = toComplex(canvasSize, fractalRect, mouseDownPixel ?: return@setStateAction)
-          val toC = toComplex(canvasSize, fractalRect, it)
 
-          fractalRect = fromC to toC
-          resetMouse()
+        onMouseClick = setStateAction {
+          if (mouseDownPixel == null) {
+            mouseDownPixel = it
+          } else {
+            val fromC = toComplex(canvasSize, fractalRect, mouseDownPixel ?: return@setStateAction)
+            val toC = toComplex(canvasSize, fractalRect, it)
+
+            fractalRect = fromC to toC
+
+            resetMouse()
+          }
         }
       }
     }

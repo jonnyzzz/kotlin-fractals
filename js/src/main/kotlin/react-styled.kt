@@ -4,6 +4,7 @@ import kotlinext.js.invoke
 import kotlinx.css.BorderStyle
 import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
+import kotlinx.css.PointerEvents
 import kotlinx.css.Position
 import kotlinx.css.Position.absolute
 import kotlinx.css.RuleSet
@@ -62,9 +63,9 @@ object Styles : StyleSheet("jonnyzzz", isStatic = true) {
     border(width = canvasBorder.px, style = BorderStyle.solid, color = Color.black)
   }
 
-
-
   fun CSSBuilder.canvasZoom(a: PixelInfo, b: PixelInfo) {
+    pointerEvents = PointerEvents.none
+
     position = Position.absolute
     left = min(a.x, b.x).px
     top = min(a.y, b.y).px
