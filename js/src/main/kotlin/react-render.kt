@@ -4,14 +4,21 @@ import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.cancelAndJoin
 import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.yield
 
 object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
-    MandelbrotRender.justRender(maxIterations = 200,
+    MandelbrotRender.justRenderTasks(
+            chunk = 2_000,
+            maxIterations = 200,
             isActive = {isActive},
             image = image,
-            area = area)
+            area = area).forEach {
+      it()
+      yield()
+    }
 
+    yield()
     image.commit()
   }
 
