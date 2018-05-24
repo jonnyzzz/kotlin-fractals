@@ -2,24 +2,18 @@ package org.jetbrains.demo.kotlinfractals
 
 
 class MandelbrotPointIteration(
-        val c: Complex
+        val c: Complex,
+        val z: Complex = Complex.ZERO,
+        val iteration: Int = 0
+
 ) : Iterator<MandelbrotPointIteration> {
-  private var z = Complex.ZERO
+  val mod2 = z.mod2
 
-  var iteration = 0
-    private set
-
-  var mod2 = 0.0
-    private set
-
-  override fun next() : MandelbrotPointIteration {
-    z = z * z + c
-    mod2 = z.mod2
-
-    iteration ++
-
-    return this
-  }
+  override fun next() = MandelbrotPointIteration(
+          c = c,
+          z = z * z + c,
+          iteration = iteration + 1
+  )
 
   override fun hasNext() = mod2 < 4
 }
