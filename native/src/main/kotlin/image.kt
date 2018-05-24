@@ -9,7 +9,7 @@ class NativeImage(
         val height: Int
 ) : FractalImage {
 
-  val data = Array(width) { Array(height) { Color.BLACK } }
+  val data = Array(width) { Array(height) { Colors.BLACK } }
 
   override val pixelRect
     get() = Rect(0, 0, width, height)
@@ -24,7 +24,7 @@ class NativeImage(
       (0 until height).forEach { y ->
         (0 until width).forEach { x ->
           append(
-                  if (data[x][y] == Color.BLACK) {
+                  if (data[x][y] == Colors.BLACK) {
                     'X'
                   } else {
                     '.'
