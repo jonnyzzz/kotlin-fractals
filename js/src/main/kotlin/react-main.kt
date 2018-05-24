@@ -107,25 +107,19 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
       css { +Styles.status }
 
       button {
-        attrs {
-          onClickFunction = setStateAction { reset() }
-        }
+        attrs.onClickFunction = setStateAction { reset() }
 
         +"Reset"
       }
 
       button {
-        attrs {
-          onClickFunction = setStateAction { renderMode = RenderMode.JVM }
-        }
+        attrs.onClickFunction = setStateAction { renderMode = RenderMode.JVM }
 
         +"JVM"
       }
 
       button {
-        attrs {
-          onClickFunction = setStateAction { renderMode = RenderMode.JS }
-        }
+        attrs.onClickFunction = setStateAction { renderMode = RenderMode.JS }
 
         +"JS"
       }
