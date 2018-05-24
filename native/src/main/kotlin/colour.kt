@@ -2,22 +2,19 @@ package org.jetbrains.demo.kotlinfractals
 
 import org.jetbrains.demo.kotlinfractals.Color
 
+
+actual class Color()
+
+private val white = Color()
+private val black = Color()
+
 actual fun Colors.hsl(h: Double,
                       s: Double,
-                      l: Double): Color {
-  //OK for console mode, for now
-  return Colors.WHITE
-}
-
-actual class Color private constructor() {
-  companion object {
-    val BLACK = Color()
-    val WHITE = Color()
-  }
-}
+                      l: Double) = white
 
 actual val Colors.BLACK
-  get() = Color.BLACK
+  get() = black
 
 val Colors.WHITE
-  get() = Color.WHITE
+  get() = white
+
