@@ -10,9 +10,9 @@ actual val Colors.BLACK
 actual val Colors.WHITE
   get() = Color.WHITE
 
-actual fun colorFromHSL(h: Double,
-                        s: Double,
-                        l: Double): Color {
+actual fun Colors.hsl(h: Double,
+                      s: Double,
+                      l: Double): Color {
   val x = HSLColor(h.toFloat(), s.toFloat(), l.toFloat()).rgb
   return Color(x.red, x.green, x.blue)
 }
