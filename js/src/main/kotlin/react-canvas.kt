@@ -37,29 +37,31 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
     return false
   }
 
-  override fun RBuilder.render() {
-    styledCanvas {
-      //cache it just in case
-
-      props.renderImage?.let { builder ->
-        ref {
-          if (it != null) {
-            job = launch {
-              yield()
-              builder(fractalImageFromCanvas(it))
-            }
-          } else {
-            job?.let { job ->
-              if (job.isActive) {
-                println("Cancelling rendering job")
-                job.cancel()
-              }
-            }
-          }
+  private fun refHandler(canvas : dynamic) {
+    if (canvas == null) {
+      job?.let {
+        if (it.isActive) {
+          println("Cancelling rendering job")
+          it.cancel()
         }
       }
+      job = null
+      return
+    }
 
+    val builder = props.renderImage ?: return
+
+    job = launch {
+      yield()
+      builder(fractalImageFromCanvas(canvas))
+    }
+  }
+
+  override fun RBuilder.render() {
+    styledCanvas {
       css { +Styles.canvas }
+
+      ref(::refHandler)
 
       attrs {
         width = props.canvasSize.width.toString()
