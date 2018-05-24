@@ -76,10 +76,6 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
         renderMode = listOf(state.renderMode, state.fractalRect)
 
         renderImage = {
-          setState {
-            resetMouse()
-          }
-
           when (state.renderMode) {
             RenderMode.JS -> ReactRenderer.renderJS(it, state.fractalRect)
             RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
