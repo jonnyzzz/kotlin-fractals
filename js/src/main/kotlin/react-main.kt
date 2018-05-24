@@ -1,6 +1,5 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinx.coroutines.experimental.launch
 import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
