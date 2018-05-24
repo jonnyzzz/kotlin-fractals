@@ -1,9 +1,11 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.yield
 import kotlinx.html.js.onClickFunction
-import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.js.onMouseMoveFunction
-import kotlinx.html.js.onMouseUpFunction
 import org.w3c.dom.events.Event
 import react.RBuilder
 import react.RComponent
@@ -11,7 +13,6 @@ import react.RProps
 import react.RState
 import styled.css
 import styled.styledCanvas
-import kotlin.browser.window
 
 data class PixelInfo(val x : Int, val y: Int)
 
@@ -20,16 +21,14 @@ interface AutoResizeCanvasControlProps : RProps {
 
   //hack to make shouldComponentUpdate work
   var renderMode : Any?
-  var renderImage : ((JSFractalImage) -> Unit)?
+  var renderImage : (suspend CoroutineScope.(JSFractalImage) -> Unit)?
 
   var onMouseMove : ((PixelInfo) -> Unit)?
-  var onMouseDown: ((PixelInfo) -> Unit)?
-  var onMouseUp: ((PixelInfo) -> Unit)?
   var onMouseClick: ((PixelInfo) -> Unit)?
 }
 
 class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>() {
-  private var timerTimeout : Int? = null
+  private var job : Job? = null
 
   override fun shouldComponentUpdate(nextProps: AutoResizeCanvasControlProps, nextState: RState): Boolean {
     if (props.canvasSize != nextProps.canvasSize) return true
@@ -45,12 +44,17 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
       props.renderImage?.let { builder ->
         ref {
           if (it != null) {
-            timerTimeout = window.setTimeout({
+            job = launch {
+              yield()
               builder(fractalImageFromCanvas(it))
-            })
-
+            }
           } else {
-            timerTimeout?.let { window.clearTimeout(it) }
+            job?.let { job ->
+              if (job.isActive) {
+                println("Cancelling rendering job")
+                it.cancel()
+              }
+            }
           }
         }
       }
@@ -62,8 +66,6 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
         height = props.canvasSize.height.toString()
 
         onMouseMoveFunction = fireCoordinatesEvent(props.onMouseMove)
-        onMouseDownFunction = fireCoordinatesEvent(props.onMouseDown)
-        onMouseUpFunction = fireCoordinatesEvent(props.onMouseUp)
         onClickFunction = fireCoordinatesEvent(props.onMouseClick)
       }
     }

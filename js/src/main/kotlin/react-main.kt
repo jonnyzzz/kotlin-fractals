@@ -1,5 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.coroutines.experimental.launch
 import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
@@ -76,11 +77,14 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
         renderMode = listOf(state.renderMode, state.fractalRect)
 
         renderImage = {
-          when (state.renderMode) {
-            RenderMode.JS -> ReactRenderer.renderJS(it, state.fractalRect)
-            RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
-            RenderMode.MIXED -> ReactRenderer.renderMixed(it, state.fractalRect)
+          ReactRenderer.apply {
+            when (state.renderMode) {
+              RenderMode.JS -> renderJS(it, state.fractalRect)
+              RenderMode.JVM -> renderJVM(it, state.fractalRect)
+              RenderMode.MIXED -> renderMixed(it, state.fractalRect)
+            }
           }
+          println("Rendering completed")
         }
 
         onMouseMove = setStateAction { mousePixel = it }

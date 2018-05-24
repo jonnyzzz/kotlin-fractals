@@ -1,14 +1,16 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.coroutines.experimental.CoroutineScope
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLImageElement
 
 
-fun fractalImageFromCanvas(canvas : HTMLCanvasElement)
-        = JSFractalImage(canvas.getContext("2d") as CanvasRenderingContext2D)
+fun CoroutineScope.fractalImageFromCanvas(canvas : HTMLCanvasElement)
+        = JSFractalImage({isActive}, canvas.getContext("2d") as CanvasRenderingContext2D)
 
 class JSFractalImage(
+        private val isAlive : () -> Boolean,
         private val ctx: CanvasRenderingContext2D
 ) : FractalImage {
 
@@ -26,16 +28,22 @@ class JSFractalImage(
     get() = Rect(0, 0, right = width, bottom = height)
 
   fun fill(c: Color) {
+    if (!isAlive()) return
+
     pixelRect.forEachPixel {
       putPixel(it, c)
     }
   }
 
   fun loadFromImage(image: HTMLImageElement) {
+    if (!isAlive()) return
+
     ctx.drawImage(image, 0.0, 0.0)
   }
 
   override fun putPixel(p: Pixel, c: Color) {
+    if (!isAlive()) return
+
     val base = 4 * (p.x + imageData.width * p.y)
 
     val image : dynamic = imageData.data
@@ -47,6 +55,8 @@ class JSFractalImage(
   }
 
   fun commit() {
+    if (!isAlive()) return
+
     println("Commit image to ctx: width=${imageData.width}, height=${imageData.height}")
     ctx.putImageData(imageData, 0.0, 0.0)
   }
