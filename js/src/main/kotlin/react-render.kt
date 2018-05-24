@@ -8,13 +8,15 @@ import kotlinx.coroutines.experimental.yield
 
 object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
-    MandelbrotRender.justRenderTasks(
-            chunkSize = 2_000,
+    MandelbrotRender.layerByLayer(
             maxIterations = 200,
             isActive = {isActive},
             image = image,
             area = area).forEach {
       it()
+      if (it == MandelbrotRender.renderImageTask) {
+        image.commit()
+      }
       yield()
     }
 

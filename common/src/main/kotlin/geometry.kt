@@ -1,5 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
+import kotlinx.html.consumers.TraceConsumer
 import kotlin.math.absoluteValue
 
 data class Rect<T>(
@@ -79,4 +80,12 @@ inline fun Transformation.forEachPixel(isActive: () -> Boolean = {true}, ƒ: (Pi
   pixelRect.forEachPixel(isActive) { p ->
     ƒ(p, toComplex(p))
   }
+}
+
+inline fun <T> Transformation.mapPixel(isActive: () -> Boolean = {true}, ƒ: (Pixel, Complex) -> T) : List<T> {
+  val result = mutableListOf<T>()
+  forEachPixel(isActive) { p, c ->
+    ƒ(p,c)?.let { result += it }
+  }
+  return result
 }

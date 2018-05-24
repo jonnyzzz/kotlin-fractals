@@ -19,13 +19,14 @@ object MandelbrotRender {
 
     justRenderTasks(
             maxIterations = maxIterations,
+            chunkSize = 1,
             isActive = isActive,
             image = image,
             area = area).forEach { it() }
   }
 
   fun justRenderTasks(maxIterations: Int = 1500,
-                      chunk: Int = 100,
+                      chunkSize: Int = 2_000,
                       isActive: () -> Boolean = { true },
                       image: FractalImage,
                       area: Rect<Double>): Sequence<MandelbrotRenderTask> {
@@ -37,7 +38,7 @@ object MandelbrotRender {
       t.forEachPixel(isActive) { p, c ->
         yield(p to c)
       }
-    }.chunked(chunk).map { tasks ->
+    }.chunked(chunkSize).map { tasks ->
       {
         tasks.forEach { (p, c) ->
           val pt = MandelbrotPointIteration(c)
@@ -47,6 +48,51 @@ object MandelbrotRender {
 
           image.putPixel(p, picker.selectColour(pt))
         }
+      }
+    }
+  }
+
+  val renderImageTask : MandelbrotRenderTask = {}
+
+  fun layerByLayer(image: FractalImage,
+                   maxIterations: Int = 1500,
+                   iterationsChunk: Int = 1,
+                   isActive: () -> Boolean = { true },
+                   area: Rect<Double>): Sequence<MandelbrotRenderTask> {
+
+    val t = Transformation(image.pixelRect, area)
+    val picker = ColorPicker(maxIterations)
+
+    var pixels = t.mapPixel(isActive) { p, c ->
+      p to MandelbrotPointIteration(c)
+    }
+
+    return buildSequence {
+      yield() {
+        pixels.forEach { (p, _) ->
+          image.putPixel(p, Colors.BLACK)
+        }
+      }
+
+      (0 until maxIterations).forEach {
+        yield() {
+          pixels = pixels.mapNotNull { (p, it) ->
+            val last = it
+                    .asSequence()
+                    .take(iterationsChunk)
+                    .lastOrNull() ?: it
+
+            if (!it.hasNext()) {
+              image.putPixel(p, picker.selectColour(last))
+              null
+            } else {
+              p to last
+            }
+          }
+        }
+
+        if (pixels.isEmpty()) return@buildSequence
+        yield(renderImageTask)
       }
     }
   }
