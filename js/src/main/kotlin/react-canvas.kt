@@ -52,7 +52,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
             job?.let { job ->
               if (job.isActive) {
                 println("Cancelling rendering job")
-                it.cancel()
+                job.cancel()
               }
             }
           }
