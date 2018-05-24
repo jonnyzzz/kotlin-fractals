@@ -2,14 +2,14 @@ package org.jetbrains.demo.kotlinfractals
 
 import kotlin.math.ln
 
-
 // common code
+expect class Color
+
+object Colors
+
 expect fun colorFromHSL(h: Double,
                         s: Double,
                         l: Double) : Color
-
-expect class Color
-object Colors
 
 expect val Colors.BLACK: Color
 expect val Colors.WHITE: Color
