@@ -7,10 +7,8 @@ import react.setState
 
 
 fun <P : RProps, S : RState, It> Component<P, S>.setStateAction(action: S.(It) -> Unit ) = { e : It ->
-  setState { action(e)}
+  setState { action(e) }
 }
-
-
 
 operator fun Transformation.rangeTo(p: PixelInfo): Complex = toComplex(p.x, p.y)
 operator fun ScreenInfo.rem(r: Rect<Double>) = Transformation(rect, r)

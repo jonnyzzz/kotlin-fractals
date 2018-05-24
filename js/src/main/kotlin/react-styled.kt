@@ -4,23 +4,24 @@ import kotlinext.js.invoke
 import kotlinx.css.BorderStyle
 import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
-import kotlinx.css.Float
+import kotlinx.css.Position
 import kotlinx.css.Position.absolute
 import kotlinx.css.RuleSet
 import kotlinx.css.TagSelector
 import kotlinx.css.TextAlign
 import kotlinx.css.body
 import kotlinx.css.button
-import kotlinx.css.div
-import kotlinx.css.em
 import kotlinx.css.margin
 import kotlinx.css.padding
 import kotlinx.css.properties.border
 import kotlinx.css.properties.lh
 import kotlinx.css.px
 import kotlinx.css.rgb
+import kotlinx.css.rgba
 import styled.StyleSheet
 import styled.StyledComponents
+import kotlin.math.absoluteValue
+import kotlin.math.min
 
 object Styles : StyleSheet("jonnyzzz", isStatic = true) {
   val canvasOffsetTop = 50
@@ -59,6 +60,19 @@ object Styles : StyleSheet("jonnyzzz", isStatic = true) {
     left = 0.px
 
     border(width = canvasBorder.px, style = BorderStyle.solid, color = Color.black)
+  }
+
+
+
+  fun CSSBuilder.canvasZoom(a: PixelInfo, b: PixelInfo) {
+    position = Position.absolute
+    left = min(a.x, b.x).px
+    top = min(a.y, b.y).px
+    width = (a.x - b.x).absoluteValue.px
+    height = (a.y - b.y).absoluteValue.px
+
+    border(width = 2.px, style = BorderStyle.dashed, color = Color.white)
+    backgroundColor = rgba(127, 126, 125, 0.5)
   }
 }
 

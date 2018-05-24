@@ -9,6 +9,7 @@ import react.dom.a
 import react.dom.button
 import react.dom.h1
 import react.dom.render
+import react.setState
 import styled.css
 import styled.styledDiv
 import kotlin.browser.document
@@ -51,6 +52,18 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
   fun MainComponentState.reset() {
     fractalRect = MandelbrotRender.initialArea
     renderMode = RenderMode.MIXED
+    resetMouse()
+  }
+
+  fun MainComponentState.resetMouse() {
+    mouseDownPixel = null
+    mousePixel = null
+  }
+
+  override fun componentWillUnmount() {
+    setState {
+      resetMouse()
+    }
   }
 
   override fun RBuilder.render() {
@@ -60,24 +73,32 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
       attrs {
         canvasSize = props.canvasSize
 
-        renderMode = state.renderMode
+        renderMode = listOf(state.renderMode, state.fractalRect)
 
         renderImage = {
+          setState {
+            resetMouse()
+          }
+
           when (state.renderMode) {
             RenderMode.JS -> ReactRenderer.renderJS(it, state.fractalRect)
             RenderMode.JVM -> ReactRenderer.renderJVM(it, state.fractalRect)
             RenderMode.MIXED -> ReactRenderer.renderMixed(it, state.fractalRect)
+          }
+
+          setState {
+            resetMouse()
           }
         }
 
         onMouseMove = setStateAction { mousePixel = it }
         onMouseDown = setStateAction { mouseDownPixel = it }
         onMouseUp = setStateAction {
-          val fromC = toComplex(canvasSize, fractalRect, state.mouseDownPixel ?: return@setStateAction)
+          val fromC = toComplex(canvasSize, fractalRect, mouseDownPixel ?: return@setStateAction)
           val toC = toComplex(canvasSize, fractalRect, it)
-          state.mouseDownPixel = null
 
           fractalRect = fromC to toC
+          resetMouse()
         }
       }
     }
@@ -122,6 +143,16 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
       css { +Styles.linkBlock }
       a(href = BackendRender.jvmClientURL(props.canvasSize, state.fractalRect)) {
         +"Open JVM image"
+      }
+    }
+
+    val mouseDownPixel = state.mouseDownPixel
+    val mousePixel = state.mousePixel
+    if (mouseDownPixel != null && mousePixel != null) {
+      styledDiv {
+        css {
+          Styles.apply { canvasZoom(mousePixel, mouseDownPixel) }
+        }
       }
     }
   }
