@@ -6,7 +6,7 @@ actual fun Colors.hsl(h: Double,
                       s: Double,
                       l: Double): Color {
   //OK for console mode, for now
-  return Color.WHITE
+1  return Colors.WHITE
 }
 
 actual class Color private constructor() {
@@ -19,6 +19,5 @@ actual class Color private constructor() {
 actual val Colors.BLACK
   get() = Color.BLACK
 
-actual val Colors.WHITE
+val Colors.WHITE
   get() = Color.WHITE
-

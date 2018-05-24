@@ -23,9 +23,6 @@ actual class Color(r: Int,
 actual val Colors.BLACK
   get() = Color(0, 0, 0)
 
-actual val Colors.WHITE
-  get() = Color(255, 255, 255)
-
 val Colors.GRAY
   get() = Color(255, 255, 255)
 

@@ -7,9 +7,6 @@ actual typealias Color = java.awt.Color
 actual val Colors.BLACK
   get() = Color.BLACK
 
-actual val Colors.WHITE
-  get() = Color.WHITE
-
 actual fun Colors.hsl(h: Double,
                       s: Double,
                       l: Double): Color {
