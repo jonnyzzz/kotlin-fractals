@@ -64,16 +64,19 @@ fun Transformation.toComplex(c: Pixel) = toComplex(c.x, c.y)
 val Rect<Int>.pixels
   get() = X.size * Y.size
 
-fun Rect<Int>.forEachPixel(call: (Pixel) -> Unit) {
+inline fun Rect<Int>.forEachPixel(isActive: () -> Boolean = {true}, ƒ: (Pixel) -> Unit) {
   (top until bottom).forEach { y ->
+
+    if (!isActive()) return
+
     (left until right).forEach { x ->
-      call(Pixel(x, y))
+      ƒ(Pixel(x, y))
     }
   }
 }
 
-fun Transformation.forEachPixel(call: (Pixel, Complex) -> Unit) {
-  pixelRect.forEachPixel { p ->
-    call(p, toComplex(p))
+inline fun Transformation.forEachPixel(isActive: () -> Boolean = {true}, ƒ: (Pixel, Complex) -> Unit) {
+  pixelRect.forEachPixel(isActive) { p ->
+    ƒ(p, toComplex(p))
   }
 }

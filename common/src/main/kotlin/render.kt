@@ -9,6 +9,7 @@ object MandelbrotRender {
   val initialArea = Rect(-2.0, -2.0, 2.0, 2.0)
 
   fun justRender(maxIterations: Int = 1500,
+                 isActive: () -> Boolean = {true},
                  image: FractalImage,
                  area: Rect<Double>) {
     val t = Transformation(image.pixelRect, area)
@@ -16,7 +17,7 @@ object MandelbrotRender {
     val picker = ColorPicker(maxIterations)
 
     //TODO: split the job in chinks
-    t.forEachPixel { p, c ->
+    t.forEachPixel(isActive) { p, c ->
 
       val pt = MandelbrotPointIteration(c)
               .asSequence()

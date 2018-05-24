@@ -8,6 +8,7 @@ import kotlinx.coroutines.experimental.delay
 object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
     MandelbrotRender.justRender(maxIterations = 200,
+            isActive = {isActive},
             image = image,
             area = area)
 
