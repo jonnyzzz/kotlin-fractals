@@ -37,6 +37,7 @@ object ReactRenderer {
   }
 
   suspend fun CoroutineScope.renderMixed(image: JSFractalImage, area: Rect<Double>) {
+
     val jvm = async(coroutineContext) {
       renderJVM(image, area)
     }
@@ -47,7 +48,8 @@ object ReactRenderer {
 
     jvm.await()
 
-    ///there is no need to render JS is JVM is done
+    ///stop render in JS
+    // when JVM is done
     js.cancelAndJoin()
   }
 }
