@@ -77,9 +77,11 @@ fun Application.main() {
           drawString("JVM", width - 140, height - 30)
         }
       }
+      
+      val message = img.toMessage()
 
       call.response.cacheControl(CacheControl.NoCache(CacheControl.Visibility.Public))
-      call.respond(status = HttpStatusCode.OK, message = img.toMessage())
+      call.respond(status = HttpStatusCode.OK, message = message)
     }
   }
 }
