@@ -5,6 +5,7 @@ private external object UnderscoreImpl {
 }
 
 object Underscore {
-  fun <T : Function<R>, R> debounce(timeout: Int, ƒ : T) : T = UnderscoreImpl.debounce(ƒ, timeout)
+  fun <T : Function<R>, R> debounce(timeout: Int, ƒ : T) : T
+          = UnderscoreImpl.debounce(ƒ, timeout)
 }
 
