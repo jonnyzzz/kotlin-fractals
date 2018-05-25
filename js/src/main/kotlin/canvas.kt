@@ -1,7 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
 import kotlinx.coroutines.experimental.CoroutineScope
-import org.khronos.webgl.Uint16Array
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLImageElement
