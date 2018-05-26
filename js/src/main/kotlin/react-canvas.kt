@@ -53,7 +53,14 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
 
     job = launch {
       yield()
-      builder(fractalImageFromCanvas(canvas))
+
+      val image = fractalImageFromCanvas(canvas)
+      image.fill(Colors.GRAY)
+      image.commit()
+
+      yield()
+
+      builder(image)
     }
   }
 
