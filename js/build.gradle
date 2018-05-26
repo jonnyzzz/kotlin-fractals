@@ -37,9 +37,9 @@ kotlinFrontend {
     dependency "styled-components"
     dependency "inline-style-prefixer"
     dependency "underscore"
-    dependency "qunit"
 
-    devDependency("karma")
+    devDependency "karma"
+    devDependency "qunit"
   }
 
   sourceMaps = true
