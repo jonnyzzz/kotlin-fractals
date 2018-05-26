@@ -45,7 +45,6 @@ fun Application.main() {
           h1 { +"Kotlin Fractals" }
         }
       }
-      call.respondText("Fractal rendering service!")
     }
 
     get("/mandelbrot") {
