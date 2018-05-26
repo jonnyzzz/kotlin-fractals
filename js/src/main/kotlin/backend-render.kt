@@ -3,6 +3,7 @@ package org.jetbrains.demo.kotlinfractals
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.suspendCancellableCoroutine
 import org.w3c.dom.HTMLImageElement
+import kotlin.js.Date
 
 
 object BackendRender {
@@ -17,7 +18,8 @@ object BackendRender {
             "&left=${area.left}" +
             "&width=${image.width}" +
             "&height=${image.height}" +
-            "&jvm=$jvm"
+            "&jvm=$jvm" +
+            "&noCache=${Date.now()}"
 
   }
 
