@@ -9,7 +9,7 @@ import kotlinx.coroutines.experimental.yield
 object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
     MandelbrotRender.justRenderTasks(
-            chunk = 2_000,
+            chunk = 1_000,
             maxIterations = 200,
             isActive = {isActive},
             image = image,
