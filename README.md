@@ -17,6 +17,10 @@ Fractals
 
 ![Fractal](https://github.com/jonnyzzz/kotlin-fractals/raw/master/images/fractal-1.jpg)
 
-and 
+The JS App
 
 ![App](https://github.com/jonnyzzz/kotlin-fractals/raw/master/images/fractal-app.jpg)
+
+The Console App
+
+![Console](https://github.com/jonnyzzz/kotlin-fractals/raw/master/images/fractal-native.jpg)
