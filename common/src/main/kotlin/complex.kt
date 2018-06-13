@@ -22,11 +22,15 @@ data class Complex(val re: Double, val im: Double) {
 operator fun Complex.plus(n: Complex)
         = Complex(this.re + n.re, this.im + n.im)
 
-operator fun Complex.minus(n: Complex)
-        = Complex(this.re - n.re, this.im - n.im)
+operator fun Complex.minus(n: Complex) = Complex(
+        re = this.re - n.re,
+        im = this.im - n.im
+)
 
-operator fun Complex.times(n: Complex)
-        = Complex(this.re * n.re - this.im * n.im, this.im * n.re + this.re * n.im)
+operator fun Complex.times(n: Complex) = Complex(
+        re = this.re * n.re - this.im * n.im,
+        im = this.im * n.re + this.re * n.im
+)
 
 val Complex.mod2 get() = re * re + im * im
 
