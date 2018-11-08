@@ -1,15 +1,15 @@
-apply plugin: "kotlin-platform-jvm"
+apply plugin: "kotlin"
 apply plugin: "application"
 
 mainClassName = "org.jetbrains.demo.kotlinfractals.MainKt"
 
 dependencies {
-  expectedBy project(":common")
+  compile project(":common")
 
   compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   compile("org.jetbrains.kotlin:kotlin-reflect")
-  compile("org.jetbrains.kotlin:kotlin-test-junit")
 
+  final String ktor_version = '1.0.0-beta-3'
   compile "io.ktor:ktor-server-core:$ktor_version"
   compile "io.ktor:ktor-server-netty:$ktor_version"
   compile "io.ktor:ktor-html-builder:$ktor_version"
@@ -21,10 +21,4 @@ dependencies {
 
 [compileKotlin, compileTestKotlin].forEach {
   it.kotlinOptions.jvmTarget = "1.8"
-}
-
-kotlin {
-  experimental {
-    coroutines "enable"
-  }
 }

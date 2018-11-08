@@ -1,17 +1,55 @@
-apply plugin: "kotlin-platform-common"
-
-
-dependencies {
-  compile("org.jetbrains.kotlin:kotlin-stdlib-common")
-
-  compile "org.jetbrains.kotlinx:kotlinx-html-common:$kotlin_html_version"
-  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
-
-  compile("org.jetbrains.kotlin:kotlin-test-common")
-  compile("org.jetbrains.kotlin:kotlin-test-annotations-common")
-}
-
+apply plugin: "kotlin-multiplatform"
 
 kotlin {
-  experimental.coroutines = 'ENABLE'
+
+  targets {
+    fromPreset(presets.jvm, 'jvm')
+  }
+
+  sourceSets {
+    
+    commonMain {
+      dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+      }
+    }
+    
+    commonTest {
+      dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-test-common'
+        implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+      }
+    }
+    
+    jvmMain {
+      dependencies {
+        implementation project(':common-jvm')
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+      }
+    }
+
+    jvmTest {
+      dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-test'
+        implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+      }
+    }
+  }
 }
+
+
+//
+//dependencies {
+//  compile("org.jetbrains.kotlin:kotlin-stdlib-common")
+//
+//  compile "org.jetbrains.kotlinx:kotlinx-html-common:$kotlin_html_version"
+//  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+//
+//  compile("org.jetbrains.kotlin:kotlin-test-common")
+//  compile("org.jetbrains.kotlin:kotlin-test-annotations-common")
+//}
+//
+//
+//kotlin {
+//  experimental.coroutines = 'ENABLE'
+//}
