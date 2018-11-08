@@ -5,6 +5,7 @@ mainClassName = "org.jetbrains.demo.kotlinfractals.MainKt"
 
 dependencies {
   expectedBy project(":common")
+  compile project(":jvm:java-color")
 
   compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   compile("org.jetbrains.kotlin:kotlin-reflect")

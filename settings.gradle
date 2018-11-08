@@ -3,6 +3,7 @@ rootProject.name = "kotlin-fractals"
 include ":common"
 include ":js"
 include ":jvm"
+include ":jvm:java-color"
 include ":native"
 
 
