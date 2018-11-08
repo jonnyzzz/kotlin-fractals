@@ -1,9 +1,10 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.yield
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onMouseMoveFunction
 import org.w3c.dom.events.Event
@@ -51,7 +52,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
 
     val builder = props.renderImage ?: return
 
-    job = launch {
+    job = GlobalScope.launch {
       yield()
 
       val image = fractalImageFromCanvas(canvas)

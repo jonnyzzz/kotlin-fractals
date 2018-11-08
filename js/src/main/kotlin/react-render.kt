@@ -1,10 +1,12 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.cancelAndJoin
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.yield
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.yield
 
 object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
@@ -22,6 +24,7 @@ object ReactRenderer {
     image.commit()
   }
 
+  @InternalCoroutinesApi
   suspend fun CoroutineScope.renderJVM(image: JSFractalImage, area: Rect<Double>) {
     BackendRender.apply {
       val htmlImage = renderOnTheServer(image.screenInfo, area)
@@ -36,6 +39,7 @@ object ReactRenderer {
     }
   }
 
+  @InternalCoroutinesApi
   suspend fun CoroutineScope.renderMixed(image: JSFractalImage, area: Rect<Double>) {
 
     val jvm = async(coroutineContext) {

@@ -1,11 +1,13 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.suspendCancellableCoroutine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.w3c.dom.HTMLImageElement
 import kotlin.js.Date
 
-
+@InternalCoroutinesApi
 object BackendRender {
 
   fun jvmClientURL(image: ScreenInfo,

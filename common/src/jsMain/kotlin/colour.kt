@@ -1,9 +1,9 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinext.js.require
 import kotlin.math.absoluteValue
 
-private val lib = require("color-convert")
+//todo: use @JsModule instead
+private val lib = js("require('color-convert')")
 
 actual fun Colors.hsl(h: Double,
                      s: Double,

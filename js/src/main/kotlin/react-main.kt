@@ -1,6 +1,7 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
@@ -67,6 +68,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     }
   }
 
+  @InternalCoroutinesApi
   private suspend fun CoroutineScope.renderImage(img: JSFractalImage) = ReactRenderer.apply {
     when (state.renderMode) {
       RenderMode.JS -> renderJS(img, state.fractalRect)
@@ -90,6 +92,7 @@ class MainComponent : RComponent<MainComponentProps, MainComponent.MainComponent
     resetMouse()
   }
 
+  @InternalCoroutinesApi
   override fun RBuilder.render() {
     h1 { +"Kotlin Fractals" }
 

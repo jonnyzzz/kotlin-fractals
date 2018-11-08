@@ -1,9 +1,11 @@
+enableFeaturePreview('GRADLE_METADATA')
+
 rootProject.name = "kotlin-fractals"
 
 include ":common"
 include ":common-jvm"
 
-//include ":js"
+include ":js"
 include ":jvm"
 //include ":native"
 

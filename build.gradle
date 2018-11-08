@@ -1,10 +1,21 @@
 buildscript {
   ext.kotlin_html_version = '0.6.10'
   ext.css_version = '1.0.0-pre.25-kotlin-1.2.30'
-  ext.kotlinx_coroutines_version = '0.22.5'
+  ext.kotlinx_coroutines_version = '1.0.1'
   ext.react_version = '16.3.1-pre.28-kotlin-1.2.30'
   ext.react_dom_version='16.3.1-pre.28-kotlin-1.2.30'
   ext.styled_version='1.0.0-pre.25-kotlin-1.2.30'
+
+  repositories {
+    jcenter()
+    maven {
+      url "https://dl.bintray.com/kotlin/kotlin-eap"
+    }
+  }
+
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.37"
+  }
 }
 
 plugins {

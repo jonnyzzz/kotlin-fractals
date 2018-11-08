@@ -2,7 +2,7 @@ apply plugin: "kotlin-platform-js"
 apply plugin: "org.jetbrains.kotlin.frontend"
 
 dependencies {
-  expectedBy project(":common")
+  compile project(":common")
 
   compile "org.jetbrains.kotlin:kotlin-stdlib-js"
 
