@@ -1,7 +1,5 @@
 package org.jetbrains.demo.kotlinfractals
 
-import kotlin.coroutines.experimental.buildSequence
-
 interface FractalImage {
   val pixelRect: Rect<Int>
   fun putPixel(p: Pixel, c: Color)
@@ -33,7 +31,7 @@ object MandelbrotRender {
     val t = Transformation(image.pixelRect, area)
     val picker = ColorPicker(maxIterations)
 
-    return buildSequence {
+    return sequence {
       t.forEachPixel(isActive) { p, c ->
         yield(p to c)
       }

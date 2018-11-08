@@ -1,3 +1,5 @@
+@file:Suppress("NonAsciiCharacters")
+
 package org.jetbrains.demo.kotlinfractals
 
 import kotlin.math.absoluteValue
