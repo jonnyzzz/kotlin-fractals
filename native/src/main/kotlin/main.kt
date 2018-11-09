@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
   val width = args.arg("width", 80)
   val height = args.arg("height", 40)
 
-  val image = NativeImage(width, height)
+  val image = NativeTextImage(width, height)
 
   MandelbrotRender.justRender(
           image = image,

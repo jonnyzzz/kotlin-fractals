@@ -1,9 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
-import org.jetbrains.demo.kotlinfractals.Color
-
-
-actual class Color()
+actual class Color
 
 private val white = Color()
 private val black = Color()

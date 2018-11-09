@@ -1,10 +1,6 @@
 package org.jetbrains.demo.kotlinfractals
 
-import org.jetbrains.demo.kotlinfractals.Pixel
-import org.jetbrains.demo.kotlinfractals.Complex
-import org.jetbrains.demo.kotlinfractals.Color
-
-class NativeImage(
+class NativeTextImage(
         val width: Int,
         val height: Int
 ) : FractalImage {

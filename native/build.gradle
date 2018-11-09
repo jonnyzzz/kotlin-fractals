@@ -1,11 +1,33 @@
-apply plugin: 'konan'
+apply plugin: 'kotlin-multiplatform'
 
-konanArtifacts {
-  program('fractals') {
-    enableMultiplatform true
+kotlin {
+  targets {
+    fromPreset(presets.macosX64, 'native') {
+      compilations.main.outputKinds 'executable'
+    }
+  }
+
+  sourceSets {
+    nativeMain {
+      kotlin.srcDir('src/main/kotlin')
+      
+      dependencies {
+        implementation project(':common')
+      }
+    }
   }
 }
 
-dependencies {
-  expectedBy project(':common')
+
+task nativeRun(type: Exec) { }
+
+afterEvaluate {
+  /// https://youtrack.jetbrains.com/issue/KT-28106
+  /// that is the hack for now!
+  tasks.nativeRun.with {
+    def main = kotlin.targets.native.compilations.main
+
+    dependsOn main.linkTaskName('executable', 'debug')
+    executable main.getBinary("executable", 'debug').toString()
+  }
 }
