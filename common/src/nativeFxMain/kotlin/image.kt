@@ -15,7 +15,7 @@ class NativeTextImage(
         val height: Int
 ) : FractalImage {
   private val length
-    get() = height*width
+    get() = height * width
 
   private val data = IntArray(length) { Colors.BLACK.color}
 
@@ -23,7 +23,7 @@ class NativeTextImage(
     get() = Rect(0, 0, width, height)
 
   override fun putPixel(p: Pixel, c: Color) {
-    data[p.x + p.y * height] = c.color
+    data[p.x + p.y * width] = c.color
   }
 
   @ExperimentalUnsignedTypes
@@ -31,7 +31,7 @@ class NativeTextImage(
 
     val data = NSData.create(
             bytes = data.refTo(0).getPointer(this),
-            length = length.toULong()
+            length = (4*length).toULong()
     )
 
     val sz = alloc<CGSize>().apply {
@@ -39,6 +39,7 @@ class NativeTextImage(
       this.width = this@NativeTextImage.width.toDouble()
     }
 
-    return CIImage(data, (4*width).toULong(), sz.readValue(), kCIFormatARGB8, null)
+    val size = sz.readValue()
+    return CIImage.imageWithBitmapData(data, (4*width).toULong(), size, kCIFormatARGB8, null)
   }
 }
