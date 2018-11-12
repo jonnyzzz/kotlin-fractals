@@ -9,7 +9,7 @@ dependencies {
   compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   compile("org.jetbrains.kotlin:kotlin-reflect")
 
-  final String ktor_version = '1.0.0-beta-3'
+  final String ktor_version = '1.0.0-beta-4'
   compile "io.ktor:ktor-server-core:$ktor_version"
   compile "io.ktor:ktor-server-netty:$ktor_version"
   compile "io.ktor:ktor-html-builder:$ktor_version"
