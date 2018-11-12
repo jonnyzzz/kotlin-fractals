@@ -14,7 +14,12 @@ kotlin {
         }
       }
       
-      fromPreset(presets.macosX64, 'native') 
+      fromPreset(presets.macosX64, 'native')
+
+
+      fromPreset(presets.iosX64, 'nativeFx'){
+        compilations.main.outputKinds 'framework'
+      }
     }
   }
 
@@ -60,18 +65,20 @@ kotlin {
 }
 
 
-//
-//dependencies {
-//  compile("org.jetbrains.kotlin:kotlin-stdlib-common")
-//
-//  compile "org.jetbrains.kotlinx:kotlinx-html-common:$kotlin_html_version"
-//  compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
-//
-//  compile("org.jetbrains.kotlin:kotlin-test-common")
-//  compile("org.jetbrains.kotlin:kotlin-test-annotations-common")
-//}
-//
-//
-//kotlin {
-//  experimental.coroutines = 'ENABLE'
-//}
+task packForXCode(type: Sync) {
+  final File frameworkDir = new File(buildDir, "xcode-frameworks")
+  final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
+
+  inputs.property "mode", mode
+  dependsOn kotlin.targets.nativeFx.compilations.main.linkTaskName("FRAMEWORK", mode)
+
+  from { kotlin.targets.nativeFx.compilations.main.getBinary("FRAMEWORK", mode).parentFile }
+  into frameworkDir
+
+  doLast {
+    new File(frameworkDir, 'gradlew').with {
+      text = "#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n"
+      setExecutable(true)
+    }
+  }
+}
