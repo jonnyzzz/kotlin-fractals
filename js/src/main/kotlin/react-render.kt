@@ -12,7 +12,7 @@ object ReactRenderer {
   suspend fun CoroutineScope.renderJS(image: JSFractalImage, area: Rect<Double>) {
     MandelbrotRender.justRenderTasks(
             chunk = 1_000,
-            maxIterations = 200,
+            maxIterations = 30,
             isActive = {isActive},
             image = image,
             area = area).forEach {
