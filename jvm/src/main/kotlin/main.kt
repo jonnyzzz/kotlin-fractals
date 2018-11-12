@@ -64,7 +64,7 @@ fun Application.main() {
       val img = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
       MandelbrotRender.justRender(
               image = FractalGraphics(img),
-              maxIterations = 5_000,
+              maxIterations = 1_000,
               area = rect
       )
 
