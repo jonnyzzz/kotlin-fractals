@@ -66,6 +66,7 @@ class AutoResizeCanvasControl : RComponent<AutoResizeCanvasControlProps, RState>
   }
 
   override fun RBuilder.render() {
+    println("Render called on React-Canvas")
     styledCanvas {
       css { +Styles.canvas }
 
