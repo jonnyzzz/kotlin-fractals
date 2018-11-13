@@ -41,13 +41,12 @@ object ReactRenderer {
 
   @InternalCoroutinesApi
   suspend fun CoroutineScope.renderMixed(image: JSFractalImage, area: Rect<Double>) {
+    val js = async(coroutineContext) {
+      renderJS(image, area)
+    }
 
     val jvm = async(coroutineContext) {
       renderJVM(image, area)
-    }
-
-    val js = async(coroutineContext) {
-      renderJS(image, area)
     }
 
     jvm.await()
