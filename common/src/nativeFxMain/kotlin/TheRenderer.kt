@@ -11,8 +11,13 @@ object TheRenderer {
 
     MandelbrotRender.justRender(
             image = image,
-            maxIterations = 100,
-            area = Rect(-2.0, -.9, .9, .9)
+            maxIterations = 20,
+            area = Rect(
+                    left = -1.5,
+                    right = .8,
+                    top = -.9,
+                    bottom = .9
+            )
     )
 
     memScoped {

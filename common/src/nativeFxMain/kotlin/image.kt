@@ -2,14 +2,18 @@ package org.jetbrains.demo.kotlinfractals
 
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.readValue
-import kotlinx.cinterop.refTo
+import kotlinx.cinterop.value
+import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
 import platform.CoreGraphics.CGSize
 import platform.CoreImage.CIImage
 import platform.CoreImage.kCIFormatARGB8
 import platform.Foundation.NSData
-import platform.Foundation.create
+import platform.Foundation.dataWithBytes
+import platform.darwin.UInt32Var
 
+@ExperimentalUnsignedTypes
 class NativeTextImage(
         val width: Int,
         val height: Int
@@ -17,7 +21,7 @@ class NativeTextImage(
   private val length
     get() = height * width
 
-  private val data = IntArray(length) { Colors.BLACK.color}
+  private val data = UIntArray(length) { Colors.BLACK.color}
 
   override val pixelRect
     get() = Rect(0, 0, width, height)
@@ -28,9 +32,9 @@ class NativeTextImage(
 
   @ExperimentalUnsignedTypes
   fun MemScope.toImage(): CIImage {
-
-    val data = NSData.create(
-            bytes = data.refTo(0).getPointer(this),
+    val array = allocArray<UInt32Var>(length) { this.value = data[it] }
+    val data = NSData.dataWithBytes(
+            bytes = array,
             length = (4*length).toULong()
     )
 
@@ -39,7 +43,11 @@ class NativeTextImage(
       this.width = this@NativeTextImage.width.toDouble()
     }
 
+    val colorSpace = CGColorSpaceCreateDeviceRGB()
     val size = sz.readValue()
-    return CIImage.imageWithBitmapData(data, (4*width).toULong(), size, kCIFormatARGB8, null)
+    val ciImage = CIImage.imageWithBitmapData(data, (4 * width).toULong(), size, kCIFormatARGB8, colorSpace)
+
+    println("Render completed 4")
+    return ciImage
   }
 }

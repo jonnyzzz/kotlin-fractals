@@ -2,8 +2,11 @@
 //  ViewController.swift
 //  kotlin-fractals
 //
-//  Created by Evgeny Petrenko on 12.11.18.
+//  Created by Evgeny Petrenko
 //  Copyright © 2018 Evgeny Petrenko. All rights reserved.
+//
+//  @jonnyzzz
+//
 //
 
 import UIKit
@@ -14,10 +17,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     
-        let ciImage = TheRenderer().render(width: 200,
-                                           height: 400)
+        let ciImage = TheRenderer().render(width: 200, height: 400)
         myImage.image = UIImage(ciImage: ciImage)
     }
     
