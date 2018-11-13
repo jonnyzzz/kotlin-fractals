@@ -11,7 +11,3 @@ actual fun Colors.hsl(h: Double,
 
 actual val Colors.BLACK
   get() = black
-
-val Colors.WHITE
-  get() = white
-
