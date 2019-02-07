@@ -2,6 +2,13 @@
 kotlin-fractals
 ===============
 
+## License
+
+MIT
+See the LICENSE files in the repository.
+
+## Description
+
 Mandelbrot set rendeing in Kotlin common code, reuse as Kotlin/JS, Kotlin/JVM and Kotlin/Native
 
 This is an example project for multiplatform Kotlin 
@@ -10,7 +17,6 @@ Kotlin/Native.
 
 
 We have common code and platform-specific code
-
 
 Fractals
 --------
