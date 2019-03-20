@@ -26,7 +26,7 @@ import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
 
-fun main(args: Array<String>) {
+fun main() {
   System.setProperty("java.awt.headless", "true")
 
   val server = embeddedServer(Netty, 8888, module = Application::main)
